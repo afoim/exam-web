@@ -251,6 +251,32 @@
                     this.jumpToQuestion(index);
                 }
             });
+            
+            // 添加键盘事件监听
+            document.addEventListener('keydown', (e) => {
+                // 防止在输入框中按键时触发导航
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                    return;
+                }
+                
+                switch(e.key) {
+                    case 'ArrowUp':   // 上箭头
+                    case 'ArrowLeft': // 左箭头
+                        e.preventDefault(); // 阻止默认滚动行为
+                        this.previousQuestion();
+                        break;
+                    case 'ArrowDown':  // 下箭头
+                    case 'ArrowRight': // 右箭头
+                        e.preventDefault(); // 阻止默认滚动行为
+                        this.nextQuestion();
+                        break;
+                    case 'Enter':      // 回车键
+                        if (!this.submitted[this.currentQuestionIndex]) {
+                            this.submitAnswer();
+                        }
+                        break;
+                }
+            });
         }
 
         initializeElements() {
@@ -376,7 +402,7 @@
             
             this.optionsContainer.appendChild(optionsContainer);
 
-            // 显示参考答案和��析
+            // 显示参考答案和析
             if (this.showAnswersEnabled) {
                 const correctLetters = correctAnswers.map(i => String.fromCharCode(65 + i)).join(', ');
                 this.correctAnswer.textContent = correctLetters;
