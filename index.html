@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线答题系统</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="file-upload">
+            <input type="file" id="txtFileInput" accept=".txt">
+            <button id="startQuiz" style="display: none;">开始答题</button>
+        </div>
+        <div id="quiz">
+            <h1>在线答题系统</h1>
+            <div id="timer">剩余时间: <span id="time">--:--</span></div>
+            <div id="question-container">
+                <p id="question-text"></p>
+                <div id="options-container"></div>
+            </div>
+            <div class="controls">
+                <button id="prev-btn">上一题</button>
+                <button id="next-btn">下一题</button>
+                <button id="submit-btn" style="display: none;">提交答案</button>
+            </div>
+        </div>
+        <div id="results" style="display: none;">
+            <h2>答题结果</h2>
+            <p>得分: <span id="score"></span></p>
+            <button id="restart-btn">重新开始</button>
+        </div>
+    </div>
+    <script src="questions.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 

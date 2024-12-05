@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线答题系统</title>
+</head>
+<body>
+    <div>
+        <div id="quiz">
+            <h1>在线答题系统</h1>
+            
+            <!-- 设置区 -->
+            <div id="settings">
+                <label>
+                    <input type="checkbox" id="shuffle-options"> 打乱选项顺序
+                </label>
+                <label>
+                    <input type="checkbox" id="show-answers"> 显示参考答案
+                </label>
+            </div>
+
+            <!-- 题目导航 -->
+            <div id="question-nav" style="margin: 10px 0;">
+                <select id="question-jumper"></select>
+                <span>跳转到题目</span>
+            </div>
+
+            <!-- 进度显示 -->
+            <div>
+                题目进度: <span id="current-question">1</span>/<span id="total-questions">0</span>
+            </div>
+
+            <!-- 题目区域 -->
+            <div id="question-container">
+                <p id="question-text"></p>
+                <form id="options-container"></form>
+            </div>
+
+            <!-- 答案区域 -->
+            <div id="answer-container" style="display: none;">
+                <p>参考答案：<span id="correct-answer"></span></p>
+            </div>
+
+            <div id="result-message"></div>
+
+            <!-- 控制按钮 -->
+            <div>
+                <button id="prev-btn" disabled>上一题</button>
+                <button id="submit-btn">提交答案</button>
+                <button id="next-btn" disabled>下一题</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+    // QUESTIONS_PLACEHOLDER
+    
+    class Quiz {
+        constructor(questions) {
+            this.originalQuestions = questions;
+            this.questions = [...questions];
+            this.currentQuestionIndex = 0;
+            this.userAnswers = new Array(questions.length).fill(null).map(() => []);
+            this.submitted = new Array(questions.length).fill(false);
+            this.shuffleEnabled = false;
+            this.showAnswersEnabled = false;
+            
+            this.initializeElements();
+            this.initializeQuestionJumper();
+            this.showQuestion();
+            this.updateProgress();
+        }
+
+        initializeElements() {
+            // 获取所有需要的DOM元素
+            this.questionText = document.getElementById('question-text');
+            this.optionsContainer = document.getElementById('options-container');
+            this.answerContainer = document.getElementById('answer-container');
+            this.correctAnswer = document.getElementById('correct-answer');
+            this.prevButton = document.getElementById('prev-btn');
+            this.nextButton = document.getElementById('next-btn');
+            this.submitButton = document.getElementById('submit-btn');
+            this.resultMessage = document.getElementById('result-message');
+            this.currentQuestionSpan = document.getElementById('current-question');
+            this.totalQuestionsSpan = document.getElementById('total-questions');
+            this.questionJumper = document.getElementById('question-jumper');
+            this.shuffleCheckbox = document.getElementById('shuffle-options');
+            this.showAnswersCheckbox = document.getElementById('show-answers');
+            
+            // 添加事件监听器
+            this.prevButton.addEventListener('click', () => this.previousQuestion());
+            this.nextButton.addEventListener('click', () => this.nextQuestion());
+            this.submitButton.addEventListener('click', () => this.submitAnswer());
+            this.questionJumper.addEventListener('change', (e) => this.jumpToQuestion(parseInt(e.target.value)));
+            this.shuffleCheckbox.addEventListener('change', (e) => this.toggleShuffle(e.target.checked));
+            this.showAnswersCheckbox.addEventListener('change', (e) => this.toggleShowAnswers(e.target.checked));
+            
+            this.totalQuestionsSpan.textContent = this.questions.length;
+        }
+
+        initializeQuestionJumper() {
+            this.questionJumper.innerHTML = '';
+            this.questions.forEach((_, index) => {
+                const option = document.createElement('option');
+                option.value = index;
+                option.textContent = `第 ${index + 1} 题`;
+                this.questionJumper.appendChild(option);
+            });
+        }
+
+        toggleShuffle(enabled) {
+            this.shuffleEnabled = enabled;
+            this.showQuestion();
+        }
+
+        toggleShowAnswers(enabled) {
+            this.showAnswersEnabled = enabled;
+            this.answerContainer.style.display = enabled ? 'block' : 'none';
+            this.showQuestion();
+        }
+
+        jumpToQuestion(index) {
+            if (index >= 0 && index < this.questions.length) {
+                this.currentQuestionIndex = index;
+                this.showQuestion();
+            }
+        }
+
+        showQuestion() {
+            const question = this.questions[this.currentQuestionIndex];
+            const typeText = question.isMultipleChoice ? '[多选题]' : '[单选题]';
+            this.questionText.textContent = `${this.currentQuestionIndex + 1}. ${question.question} ${typeText}`;
+            
+            // 更新题目选择器
+            this.questionJumper.value = this.currentQuestionIndex;
+
+            // 显示选项
+            this.optionsContainer.innerHTML = '';
+            const inputType = question.isMultipleChoice ? 'checkbox' : 'radio';
+            const name = `question-${this.currentQuestionIndex}`;
+            
+            let options = [...question.options];
+            let correctAnswers = [...question.correctAnswer];
+            
+            // 如果启用了打乱选项
+            if (this.shuffleEnabled && !this.submitted[this.currentQuestionIndex]) {
+                const shuffleResult = this.shuffleOptions(options, correctAnswers);
+                options = shuffleResult.options;
+                correctAnswers = shuffleResult.correctAnswers;
+            }
+            
+            options.forEach((option, index) => {
+                const label = document.createElement('label');
+                const input = document.createElement('input');
+                input.type = inputType;
+                input.name = name;
+                input.value = index;
+                
+                if (this.userAnswers[this.currentQuestionIndex].includes(index)) {
+                    input.checked = true;
+                }
+                
+                if (this.submitted[this.currentQuestionIndex]) {
+                    input.disabled = true;
+                    if (correctAnswers.includes(index)) {
+                        label.style.color = 'green';
+                    } else if (this.userAnswers[this.currentQuestionIndex].includes(index)) {
+                        label.style.color = 'red';
+                    }
+                }
+                
+                input.addEventListener('change', () => this.selectOption(index));
+                
+                label.appendChild(input);
+                label.appendChild(document.createTextNode(` ${String.fromCharCode(65 + index)}. ${option}`));
+                this.optionsContainer.appendChild(label);
+                this.optionsContainer.appendChild(document.createElement('br'));
+            });
+
+            // 显示参考答案
+            if (this.showAnswersEnabled) {
+                const correctLetters = correctAnswers.map(i => String.fromCharCode(65 + i)).join(', ');
+                this.correctAnswer.textContent = correctLetters;
+            }
+
+            this.updateControls();
+            this.updateProgress();
+            this.resultMessage.textContent = '';
+        }
+
+        shuffleOptions(options, correctAnswers) {
+            const indexes = options.map((_, i) => i);
+            const shuffled = [];
+            const newCorrectAnswers = [];
+            
+            while (indexes.length > 0) {
+                const i = Math.floor(Math.random() * indexes.length);
+                const oldIndex = indexes[i];
+                const newIndex = shuffled.length;
+                
+                if (correctAnswers.includes(oldIndex)) {
+                    newCorrectAnswers.push(newIndex);
+                }
+                
+                shuffled.push(options[oldIndex]);
+                indexes.splice(i, 1);
+            }
+            
+            return {
+                options: shuffled,
+                correctAnswers: newCorrectAnswers
+            };
+        }
+
+        selectOption(index) {
+            if (this.submitted[this.currentQuestionIndex]) return;
+            
+            const question = this.questions[this.currentQuestionIndex];
+            const currentAnswers = this.userAnswers[this.currentQuestionIndex];
+            
+            if (question.isMultipleChoice) {
+                const answerIndex = currentAnswers.indexOf(index);
+                if (answerIndex === -1) {
+                    currentAnswers.push(index);
+                } else {
+                    currentAnswers.splice(answerIndex, 1);
+                }
+            } else {
+                this.userAnswers[this.currentQuestionIndex] = [index];
+            }
+        }
+
+        submitAnswer() {
+            if (this.submitted[this.currentQuestionIndex]) return;
+            
+            const question = this.questions[this.currentQuestionIndex];
+            const userAnswer = this.userAnswers[this.currentQuestionIndex];
+            
+            if (!userAnswer.length) {
+                alert('请选择答案');
+                return;
+            }
+            
+            let isCorrect = false;
+            if (question.isMultipleChoice) {
+                isCorrect = userAnswer.length === question.correctAnswer.length &&
+                    userAnswer.every(a => question.correctAnswer.includes(a));
+            } else {
+                isCorrect = userAnswer[0] === question.correctAnswer[0];
+            }
+            
+            this.submitted[this.currentQuestionIndex] = true;
+            this.showQuestion();  // 重新渲染以显示正确/错误状态
+            
+            this.resultMessage.textContent = isCorrect ? '回答正确！' : '回答错误！';
+            this.nextButton.disabled = false;
+            this.submitButton.disabled = true;
+        }
+
+        previousQuestion() {
+            if (this.currentQuestionIndex > 0) {
+                this.currentQuestionIndex--;
+                this.showQuestion();
+            }
+        }
+
+        nextQuestion() {
+            if (this.currentQuestionIndex < this.questions.length - 1) {
+                this.currentQuestionIndex++;
+                this.showQuestion();
+            }
+        }
+
+        updateControls() {
+            this.prevButton.disabled = this.currentQuestionIndex === 0;
+            this.nextButton.disabled = !this.submitted[this.currentQuestionIndex] || 
+                this.currentQuestionIndex === this.questions.length - 1;
+            this.submitButton.disabled = this.submitted[this.currentQuestionIndex];
+        }
+
+        updateProgress() {
+            this.currentQuestionSpan.textContent = this.currentQuestionIndex + 1;
+        }
+    }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        const quiz = new Quiz(questions);
+    });
+    </script>
+</body>
+</html> 
