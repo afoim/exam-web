@@ -165,7 +165,7 @@ class QuizBuilder:
                         answer_start = -1
                         answer_end = -1
                         
-                        # 检查英���括号
+                        # 检查英文括号
                         if '(' in line and ')' in line:
                             answer_start = line.find('(')
                             answer_end = line.find(')')
@@ -233,7 +233,7 @@ class QuizBuilder:
                         
                         if option_count < 4:
                             raise QuizFormatError(
-                                f"第{question_num}题（第{line_num}行）: 选项数量不足4个，实际只有{option_count}个\n"
+                                f"第{question_num}题���第{line_num}行）: 选项数量不足4个，实际只有{option_count}个\n"
                                 f"题目内容: {line}\n"
                                 f"已找到的选项: {current_question['options']}"
                             )
@@ -258,7 +258,7 @@ class QuizBuilder:
         if current_question:
             if len(current_question['options']) != 4:
                 raise QuizFormatError(
-                    f"第{question_num}题（第{line_num}行）: 选项数量不足4个，实际只有{len(current_question['options'])}个")
+                    f"第{question_num}题（第{line_num}行）: 选项数��不足4个，实际只有{len(current_question['options'])}个")
             questions.append(current_question)
         
         if not questions:
@@ -296,11 +296,10 @@ class QuizBuilder:
         # 确保dist目录存在
         os.makedirs('dist', exist_ok=True)
         
-        # 生成带时间戳的文件名
-        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
-        output_path = f'dist/quiz_{timestamp}.html'
+        # 生成index.html文件
+        output_path = 'dist/index.html'
         
-        # 写入生成的HTML件
+        # 写入生成的HTML文件
         with open(output_path, 'w', encoding='utf-8') as f:
             f.write(html)
             
