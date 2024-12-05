@@ -68,6 +68,20 @@ class QuizBuilder:
                     return False
                 return len(line) > 1 and (line[1] == '.' or line[1] == '．')
 
+            def parse_options_line(line):
+                """解析包含多个选项的行"""
+                options = []
+                # 按制表符或多个空格分割
+                parts = re.split(r'\t+|\s{2,}', line)
+                for part in parts:
+                    part = part.strip()
+                    if part and part[0] in 'ABCD':
+                        # 移除选项标记（如"A．"或"A."）
+                        option = re.sub(r'^[A-D][.．]', '', part).strip()
+                        if option:
+                            options.append(option)
+                return options
+
             while line_num < len(lines):
                 line = lines[line_num].strip()
                 line_num += 1
@@ -134,7 +148,16 @@ class QuizBuilder:
                                 option_search_line_num += 1
                                 continue
                             
-                            if is_option_line(next_line):
+                            # 如果是包含多个选项的行
+                            if re.match(r'^[A-D][.．].*\s+[A-D][.．]', next_line):
+                                options = parse_options_line(next_line)
+                                for option in options:
+                                    if option_count < 4:
+                                        current_question['options'].append(option)
+                                        option_count += 1
+                                option_search_line_num += 1
+                            # 如果是单个选项的行
+                            elif is_option_line(next_line):
                                 option = next_line[2:].strip()
                                 if option_count < 4:
                                     current_question['options'].append(option)

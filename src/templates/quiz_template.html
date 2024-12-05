@@ -166,6 +166,52 @@
         .explanation-section {
             margin-top: 20px;
         }
+
+        .progress-ring-container {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .progress-ring {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+        }
+
+        .progress-ring__circle {
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+
+        .progress-ring__background {
+            fill: none;
+            stroke: #eee;
+        }
+
+        .progress-ring__progress {
+            fill: none;
+            stroke: #28a745;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 0.5s ease;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .quiz-summary {
+            margin-top: 10px;
+            font-size: 1.1em;
+            color: #666;
+        }
     </style>
 </head>
 <body>
@@ -223,6 +269,25 @@
                 <button id="submit-btn">提交答案</button>
                 <button id="next-btn">下一题</button>
             </div>
+
+            <!-- 圆环进度条 -->
+            <div class="progress-ring-container" id="progress-container">
+                <div class="progress-ring">
+                    <svg width="120" height="120">
+                        <circle class="progress-ring__background"
+                                cx="60" cy="60" r="52"
+                                stroke-width="8"/>
+                        <circle class="progress-ring__progress"
+                                cx="60" cy="60" r="52"
+                                stroke-width="8"/>
+                    </svg>
+                    <div class="progress-text">0%</div>
+                </div>
+                <div class="quiz-summary">
+                    共 <span id="total-count">0</span> 题，
+                    答对 <span id="correct-count">0</span> 题
+                </div>
+            </div>
         </div>
     </div>
     
@@ -277,6 +342,19 @@
                         break;
                 }
             });
+            
+            this.progressContainer = document.getElementById('progress-container');
+            this.progressCircle = document.querySelector('.progress-ring__progress');
+            this.progressText = document.querySelector('.progress-text');
+            this.totalCountSpan = document.getElementById('total-count');
+            this.correctCountSpan = document.getElementById('correct-count');
+            
+            // 设置圆环进度条的初始状态
+            const circle = this.progressCircle;
+            const radius = circle.r.baseVal.value;
+            this.circumference = radius * 2 * Math.PI;
+            circle.style.strokeDasharray = `${this.circumference} ${this.circumference}`;
+            circle.style.strokeDashoffset = this.circumference;
         }
 
         initializeElements() {
@@ -485,6 +563,11 @@
             if (isCorrect && this.currentQuestionIndex < this.questions.length - 1) {
                 setTimeout(() => this.nextQuestion(), 500);
             }
+            
+            // 检查是否所有题目都已作答
+            if (this.checkAllAnswered()) {
+                this.showResult();
+            }
         }
 
         previousQuestion() {
@@ -508,6 +591,35 @@
 
         updateProgress() {
             this.currentQuestionSpan.textContent = this.currentQuestionIndex + 1;
+        }
+
+        // 添加检查是否所有题目都已作答的方法
+        checkAllAnswered() {
+            return this.submitted.every(x => x);
+        }
+
+        // 计算正确率并显示圆环
+        showResult() {
+            let correctCount = 0;
+            const totalCount = this.questions.length;
+
+            this.questions.forEach((question, index) => {
+                const userAnswer = this.userAnswers[index];
+                const isCorrect = question.isMultipleChoice ?
+                    (userAnswer.length === question.correctAnswer.length &&
+                     userAnswer.every(ans => question.correctAnswer.includes(ans))) :
+                    (userAnswer[0] === question.correctAnswer[0]);
+                if (isCorrect) correctCount++;
+            });
+
+            const percentage = Math.round((correctCount / totalCount) * 100);
+            const offset = this.circumference - (percentage / 100 * this.circumference);
+            
+            this.progressCircle.style.strokeDashoffset = offset;
+            this.progressText.textContent = `${percentage}%`;
+            this.totalCountSpan.textContent = totalCount;
+            this.correctCountSpan.textContent = correctCount;
+            this.progressContainer.style.display = 'block';
         }
     }
     
