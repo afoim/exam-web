@@ -2,6 +2,7 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <link rel="icon" type="image/png" href="https://q2.qlogo.cn/headimg_dl?dst_uin=2973517380&amp;spec=5">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>在线答题系统</title>
     <style>
@@ -83,9 +84,35 @@
 
         #answer-container {
             margin: 20px 0;
-            padding: 15px;
-            background-color: #e9ecef;
+            padding: 20px;
+            background-color: #f8f9fa;
             border-radius: 6px;
+            border-left: 4px solid #28a745;
+        }
+
+        .answer-section {
+            margin-bottom: 15px;
+        }
+
+        .answer-section h3, .explanation-section h3 {
+            color: #333;
+            margin: 0 0 10px 0;
+            font-size: 1.1em;
+        }
+
+        .explanation {
+            margin: 0;
+            padding: 10px;
+            background-color: #fff;
+            border-radius: 4px;
+            white-space: pre-wrap;
+            font-family: inherit;
+            line-height: 1.6;
+        }
+
+        #correct-answer {
+            font-weight: bold;
+            color: #28a745;
         }
 
         button {
@@ -131,6 +158,14 @@
         .incorrect {
             color: #dc3545;
         }
+
+        .answer-section {
+            margin-bottom: 20px;
+        }
+
+        .explanation-section {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body>
@@ -144,7 +179,7 @@
                     <input type="checkbox" id="shuffle-options"> 打乱选项顺序
                 </label>
                 <label>
-                    <input type="checkbox" id="show-answers"> 显示参考答案
+                    <input type="checkbox" id="show-answers"> 显示参考答案和AI解析（如果有）
                 </label>
                 <label>
                     <input type="checkbox" id="auto-next"> 单选题作答正确自动下一题
@@ -170,7 +205,14 @@
 
             <!-- 答案区域 -->
             <div id="answer-container" style="display: none;">
-                <p>参考答案：<span id="correct-answer"></span></p>
+                <div class="answer-section">
+                    <h3>参考答案</h3>
+                    <p><span id="correct-answer"></span></p>
+                </div>
+                <div class="explanation-section">
+                    <h3>AI解析</h3>
+                    <pre id="explanation" class="explanation"></pre>
+                </div>
             </div>
 
             <div id="result-message"></div>
@@ -217,6 +259,7 @@
             this.optionsContainer = document.getElementById('options-container');
             this.answerContainer = document.getElementById('answer-container');
             this.correctAnswer = document.getElementById('correct-answer');
+            this.explanation = document.getElementById('explanation');
             this.prevButton = document.getElementById('prev-btn');
             this.nextButton = document.getElementById('next-btn');
             this.currentQuestionSpan = document.getElementById('current-question');
@@ -333,10 +376,12 @@
             
             this.optionsContainer.appendChild(optionsContainer);
 
-            // 显示参考答案
+            // 显示参考答案和��析
             if (this.showAnswersEnabled) {
                 const correctLetters = correctAnswers.map(i => String.fromCharCode(65 + i)).join(', ');
                 this.correctAnswer.textContent = correctLetters;
+                // 显示解析（如果有）
+                this.explanation.textContent = question.explanation || "暂无解析";
                 this.answerContainer.style.display = 'block';
             } else {
                 this.answerContainer.style.display = 'none';

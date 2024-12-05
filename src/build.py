@@ -116,7 +116,7 @@ class QuizBuilder:
                             closing_bracket = ')' if bracket_type == '(' else '）'
                             processed_text = before + bracket_type + "  " + closing_bracket + after
                 
-                # 如果找到了答案，返去重后的答案和处理后的文本
+                # 如果找到了答案，返后的答案和处理后的文本
                 if answers:
                     return sorted(set(answers)), processed_text
                 
@@ -132,7 +132,7 @@ class QuizBuilder:
 
             def is_option_line(line):
                 """判断是否是选项行"""
-                # 必须以A-D开头，后面跟着点号（支持中英文点号���
+                # 必须以A-D开头，后面跟着点号（支持中英文点号
                 if not line or line[0] not in 'ABCD':
                     return False
                 return len(line) > 1 and (line[1] == '.' or line[1] == '．')
@@ -171,7 +171,7 @@ class QuizBuilder:
                         answers, processed_text = extract_answers(line)
                         if not answers:
                             raise QuizFormatError(
-                                f"第{question_num}题（第{line_num}行）: 无法从题目中提取出有效的答案，"
+                                f"第{question_num}题（第{line_num}行）: 无法从题目中提取出有的答案，"
                                 f"答案必须是A、B、C、D中的一个或多个")
                         
                         correct_answers = [ord(ans) - ord('A') for ans in answers]
@@ -181,11 +181,33 @@ class QuizBuilder:
                         question_text = processed_text
                         question_text = re.sub(r'^\d+\.', '', question_text).strip()  # 只移除题号
                         
+                        # 初始化选项搜索行号
+                        option_search_line_num = line_num
+                        
+                        # 在处理选项后，查找解析文本
+                        explanation = ""
+                        while option_search_line_num < len(lines):
+                            next_line = lines[option_search_line_num].strip()
+                            if next_line == "【解析】":
+                                # 找到解析标记，开始收集解析文本
+                                option_search_line_num += 1
+                                while option_search_line_num < len(lines):
+                                    next_line = lines[option_search_line_num].strip()
+                                    if not next_line or is_question_line(next_line):
+                                        break
+                                    explanation += next_line + "\n"
+                                    option_search_line_num += 1
+                                break
+                            elif is_question_line(next_line):
+                                break
+                            option_search_line_num += 1
+
                         current_question = {
-                            'question': question_text,  # 直接使用原始文本
+                            'question': question_text,
                             'options': [],
                             'correctAnswer': correct_answers,
-                            'isMultipleChoice': is_multiple_choice
+                            'isMultipleChoice': is_multiple_choice,
+                            'explanation': explanation.strip() if explanation else "暂无解析"
                         }
                         
                         # 向前查找选项
@@ -295,7 +317,8 @@ class QuizBuilder:
                 question: {safe_json_dumps(question_text)},
                 options: {safe_json_dumps(q['options'])},
                 correctAnswer: {json.dumps(q['correctAnswer'], ensure_ascii=False)},
-                isMultipleChoice: {str(q['isMultipleChoice']).lower()}
+                isMultipleChoice: {str(q['isMultipleChoice']).lower()},
+                explanation: {safe_json_dumps(q['explanation'])}
             }}""")
         
         # 生成最终的 JavaScript 代码
@@ -332,6 +355,24 @@ class QuizBuilder:
             f.write(html)
             
         print(f'Quiz built successfully: {output_path}')
+    
+    def generate_explanation(self, question, options, correct_answers):
+        """生成题目解析"""
+        # 构建解析文本
+        explanation = "【解析】\n"
+        explanation += "本题考查：...\n\n"
+        explanation += "选项分析：\n"
+        
+        for i, option in enumerate(options):
+            is_correct = i in correct_answers
+            explanation += f"{chr(65 + i)}. {option}\n"
+            explanation += f"   {'✓ ' if is_correct else '✗ '}"
+            # 这里可以为每个选项添加具体分析
+            explanation += "...\n"
+        
+        explanation += "\n答案解释：...\n"
+        
+        return explanation
 
 if __name__ == '__main__':
     builder = QuizBuilder(

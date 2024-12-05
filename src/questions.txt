@@ -1,377 +1,895 @@
-
 1.新建网页的快捷键是( A )。
 A.Ctrl+N
 B.Ctrl+S
 C.Ctrl+空格
 D.Ctrl+Shift+空格
+【解析】
+本题考查HTML开发中常用的快捷键操作。
+选项分析：
+A. Ctrl+N ✓ 这是创建新文件的标准快捷键，在大多数编辑器和IDE中都通用
+B. Ctrl+S ✗ 这是保存文件的快捷键，不是创建新文件
+C. Ctrl+空格 ✗ 这通常是代码提示或输入法切换的快捷键
+D. Ctrl+Shift+空格 ✗ 这通常是显示参数提示的快捷键
 
 2.在HTML中，浏览器左上角显示的标题是通过( A )标签设置的。
 A.<title>
 B.<h1>
 C. <hr />
 D.<head>
+【解析】
+本题考查HTML文档结构中标题的设置。
+选项分析：
+A. <title> ✓ title标签专门用于定义网页标题，显示在浏览器标签栏、收藏夹和搜索结果中
+B. <h1> ✗ h1是页面内容中的一级标题标签，显示在网页正文中，不是浏览器标题
+C. <hr /> ✗ hr是水平线标签，用于分隔内容，与标题设置无关
+D. <head> ✗ head是文档头部容器，title标签应该放在head标签内，但本身不是设置标题的标签
 
 3.下面关于段落与换行的区别说法错误的是( C )。
 A.段落开始标签和结束标签之间可以有文字，换行没有
 B.默认情况下，段落与段落之间有一定的间距，换行没有
 C.段落与换行都可以起到换行的作用，没有任何区别
 D.段落有单独的结束标签，而换行是自身闭合的标签
+【解析】
+本题考查HTML中<p>和<br>标签的区别。
+选项分析：
+A. ✓ <p>是双标签可包含内容，<br>是单标签不能包含内容
+B. ✓ <p>标签会产生默认外边距，而<br>只是简单的换行
+C. ✗ 这是错误说法。虽然都能换行，但在语义和样式上有本质区别：<p>表示段落，有间距；<br>只是换行
+D. ✓ <p>需要结束标签</p>，<br>是自闭合标签，不需要结束标签
 
 4.在HTML中，使一段文字显示为斜体需要使用( B )标签。
 A. <strong>
 B.<em>
 C. <hr />
 D.<p>
+【解析】
+本题考查HTML文本格式化标签的使用。
+选项分析：
+A. <strong> ✗ strong标签用于加粗文本，表示强调，不是斜体
+B. <em> ✓ em标签（emphasis）用于将文本显示为斜体，表示强调
+C. <hr /> ✗ hr是水平线标签，用于分隔内容，与文本样式无关
+D. <p> ✗ p是段落标签，用于定义段落，不会改变文本样式
 
 5.空格对应的HTML代码是( D )。
 A. &amp;
 B.&copy;
 C.&lt;
 D.&nbsp;
+【解析】
+本题考查HTML字符的使用。
+选项分析：
+A. &amp; ✗ 表示符号"&"（和号）
+B. &copy; ✗ 表示版权符号"©"
+C. &lt; ✗ 表示小于号"<"
+D. &nbsp; ✓ Non-Breaking Space，不换行空格，用于插入空格，且不会因为屏幕宽度自动换行
 
-6.创建图像使用的标签是( C)。
-A. <hr />
+6.创建图像使用的标签是( C )。
+A.<hr />
 B.<br >
-C. <img />
+C.<img />
 D.<a>
+【解析】
+本题考查HTML基础标签的使用。
+选项分析：
+A. <hr /> ✗ hr是水平线标签，用于分隔内容
+B. <br > ✗ br是换行标签，用于文本换行
+C. <img /> ✓ img（image）标签专门用于在网页中插入图像
+D. <a> ✗ a是超链接标签，用于创建链接
 
-7.下面关于网页中图像的说法错误的是( C)。
+7.下面关于网页中图像的说法错误的是( C )。
 A.若要使图像旁边的文字相对于图像垂直居中，需要设置图像的align属性为absmiddle
 B.设置图像的border属性为0，可以使图像不显示边框
 C.图像的src属性用来设置图像的超链接地址
 D.图像的替代文本只有在图像无法显示时才能看到
+【解析】
+本题考查HTML中img标签的属性使用。
+选项分析：
+A. ✓ align="absmiddle"确实可以使文字相对图片垂直居中对齐
+B. ✓ border="0"可以去除图片边框
+C. ✗ 这是错误说法。src属性用于指定图像的源文件地址，而不是超链接地址。超链接需要使用<a>标签的href属性
+D. ✓ alt属性提供的替代文本确实只在图片加载失败时显示
 
 8.下面关于超链接的说法错误的是(B D )。
 A.链接的target属性为_blank，表示该链接在新窗口打开
 B.链接的src属性用来设置被链接页面的地址
 C.链接目标页面可以是网络上的网页地址
 D.为图像文件添加超链接，默认情况下图像会显示边框
+【解析】
+本题考查HTML中<a>标签的使用。
+选项分析：
+A. ✓ target="_blank"确实会在新窗口/标签页中打开链接
+B. ✗ 错误。链接使用href属性设置目标地址，而不是src。src是图片等元素的属性
+C. ✓ 链接可以指向任何URL，包括互联网上的网页
+D. ✗ 错误。图片链接默认不会显示边框，除非特意设置border属性
 
 9.下面关于创建电子邮件链接的HTML语法正确的是(C )。
 A.<email>denny@domain.com</email>
-B. <a href="denny@domain.com">Denny</a>
-C.<a herf="mailto:denny@domain.com">Denny</a>
+B.<a href="denny@domain.com">Denny</a>
+C.<a href="mailto:denny@domain.com">Denny</a>
 D.<mail to="denny@domain.com">Denny</a>
+【解析】
+本题考查HTML中mailto链接的创建。
+选项分析：
+A. ✗ HTML中没有<email>这个标签
+B. ✗ 缺少mailto:前缀，这样会被当作普通链接处理
+C. ✓ 正确的邮件链接格式，使用mailto:前缀指定邮件地址
+D. ✗ 标签名和属性都错误，且开闭标签不匹配
 
-10.下面关于网页中命名锚记的说法错误的是(B)。
+10.下面关于���页中命名锚记的说法错误的是(B)。
 A.命名锚记是通过<a>标签的name属性设置的
 B.使用<a name="#top"></a>创建了一个名为top的命名锚记
 C.命名锚链接和锚记可以在不同的页面
-D. <a href="#info">查看详细</a>表示一个指向本页名为info命名锚记的链接
+D.<a href="#info">查看详细</a>表示一个指向本页名为info命名锚记的链接
+【解析】
+本题考查HTML中锚点的使用。
+选项分析：
+A. ✓ name属性（或现代HTML中的id属性）用于创建锚点
+B. ✗ 错误。创建锚点时不需要#符号，应该是<a name="top"></a>
+C. ✓ 可以通过完整URL加锚点名实现跨页面锚点链接
+D. ✓ 使用#加锚点名可以链接到页内指定位置
 
 11. HTML的结构正确的是（  B   ）。
 A．<html><body></body><p></p></html>
 B．<html><head></head><body></body></html>
 C．<html><head></head><h></h></html>
 D．<html><title><head></head></title></html>
+【解析】
+本题考查HTML文档的基本结构。
+选项分析：
+A. ✗ 错误。<p>标签应该在<body>内，且结构不完整（缺少head）
+B. ✓ 正确的HTML文档结构：html作为根元素，包含head和body两个主要部分
+C. ✗ 错误。<h>不是有效的HTML标签，且缺少body部分
+D. ✗ 错误。<title>应该在<head>内，而不是包含head
 
-12.在HTML中，下面（ C    ）标签可以在页面上显示一个水平线。
-		A．<h2></h2>		B．<p></p>		C．<hr/>		D．<br/>
+12.在HTML中，下面（ C ）标签可以在页面上显示一个水平线。
+A．<h2></h2>		B．<p></p>		C．<hr/>		D．<br/>
+【解析】
+本题考查HTML中分隔线标签的使用。
+选项分析：
+A. ✗ h2是二级标题标签，用于显示标题文本
+B. ✗ p是段落标签，用于定义段落
+C. ✓ hr（horizontal rule）标签专门用于创建水平分隔线
+D. ✗ br是换行标签，只产生换行效果
 
-13.下面（   B ）标签可以实现文本加粗显示。
-	A．&nbsp;		B．<strong>		C．<em>		D．<p>
+13.下面（ B ）标签可以实现文本加粗显示。
+A．&nbsp;		B．<strong>		C．<em>		D．<p>
+【解析】
+本题考查HTML文本格式化标签。
+选项分析：
+A. ✗ &nbsp;是空格实体，用于插入空格
+B. ✓ strong标签用于加粗文本并表示强调
+C. ✗ em标签用于斜体显示文本
+D. ✗ p是段落标签，不会改变文本样式
 
-14.在HTML中，下面（   A  ）可以在页面上显示空格。
+14.在HTML中，下面（ A ）可以在页面上显示空格。
 A.&nbsp;		B．&copy;		C．&lt;		D.&gt;
+【解析】
+本题考查HTML实体字符的使用。
+选项分析：
+A. ✓ &nbsp;（non-breaking space）用于插入不换行空格
+B. ✗ &copy;用于显示版权符号©
+C. ✗ &lt;用于显示小于号<
+D. ✗ &gt;用于显示大于号>
 
-15. 在HTML中，下面（   D  ）不是HTML的组成结构。
-	A．声明		B．头部		C．主体		D.身体
+15.在HTML中，下面（ D ）不是HTML的组成结构。
+A．声明		B．头部		C．主体		D.身体
+【解析】
+本题考查HTML文档的基本组成结构。
+选项分析：
+A. ✓ 声明（DOCTYPE）是HTML文档的组成部分
+B. ✓ 头部（head）是HTML文档的重��组成部分
+C. ✓ 主体（body）是HTML文档的主要内容区域
+D. ✗ "身体"不是HTML的标准组成部分，正确的应该是"主体"（body）
 
-16. 在HTML中，下面（    A ）级别最高(作用效果最大，字体最大)。
+16.在HTML中，下面（ A ）级别最高(作用效果最大，字体最大)。
 A．h1   	B．h2 		C．h3		D.h4
+【解析】
+本题考查HTML标题标签的层级关系。
+选项分析：
+A. ✓ h1是最高级别的标题，默认字体最大
+B. ✗ h2是二级标题，字体大小小于h1
+C. ✗ h3是三级标题，字体大小小于h2
+D. ✗ h4是四级标题，字体大小小于h3
 
-17.下面（  D   ）不是DW编译软件自带的模式。
+17.下面（ D ）不是DW编译软件自带的模式。
 A．代码模式   	B．拆分模式 		C．设计模式		D.编译模式
+【解析】
+本题考查Dreamweaver软件的工作模式。
+选项分析：
+A. ✓ 代码模式用于直接编写HTML代码
+B. ✓ 拆分模式同时显示代码和设计视图
+C. ✓ 设计模式用于可视化页面编辑
+D. ✗ 编译模式不是DW的工作模式，DW是编辑器而不是编译器
 
-18. 在HTML中，下面（  B   ）代表的是段落。
+18.在HTML中，下面（ B ）代表的是段落。
 A．h1   	B．p		C．title		D.br
+【解析】
+本题考查HTML基本标签的含义。
+选项分析：
+A. ✗ h1是一级标题标签
+B. ✓ p（paragraph）标签专门用于定义段落
+C. ✗ title是网页标题标签，显示在浏览器标签栏
+D. ✗ br是换行标签，用于换行
 
-19. 下面（   C  ）标签可以实现文本斜体显示。
-	A．br   	B．<strong>		C．<em>		D．<p>
+19.下面（ C ）标签可以实现文本斜体显示。
+A．br   	B．<strong>		C．<em>		D．<p>
+【解析】
+本题考查HTML文本格式化标签。
+选项分析：
+A. ✗ br是换行标签，不改变文本样式
+B. ✗ strong用于文本加粗显示
+C. ✓ em（emphasis）标签用于将文本斜体显示并表示强调
+D. ✗ p是段落标签，不改变文本样式
 
-20.下面（  A   ）选项是大于号的实体引用。
+20.下面（ A ）选项是大于号的实体引用。
 A．&gt;  	B．&lt; 	C．&amp;		D．&copy;
+【解析】
+本题考查HTML实体字符的使用。
+选项分析：
+A. ✓ &gt;（greater than）用于显示大于号>
+B. ✗ &lt;（less than）用于显示小于号<
+C. ✗ &amp;用于显示&符号
+D. ✗ &copy;用于显示版权符号©
 
-21.下面那个选项不是超链接的分类（ D ）
+21.下面那个选项是超链接的分类（ D ）
 A．功能性链接;  	B．书签标记链接; 	C．空连接;		D．联合链接;
+【解析】
+本题考查HTML超链接的分类知识。
+选项分析：
+A. ✓ 功能性链接是指向其他页面或资源的链接
+B. ✓ 书签标记链接（锚点链接）用于页面内部导航
+C. ✓ 空连接（#）通常用于测试或待定的链接
+D. ✗ "联合链接"不是标准的超链接分类
 
-22.下面那个属性是属于超链接的（  B）
+22.下面那个属性是属于超链接的（ B ）
 A．src;  	B．href; 	C．img;		D．a;
+【解析】
+本题考查HTML超链接的属性。
+选项分���：
+A. ✗ src是图片等元素的源文件属性，不是链接属性
+B. ✓ href（hypertext reference）是超链接的核心属性，用于指定链接目标
+C. ✗ img是图片标签名，不是属性
+D. ✗ a是标签名，不是属性
 
 23.在网页中引入的图片无法正常显示时使用（ B ）说明
 A．title;  	B．alt; 	C．border;		D．src;
+【解析】
+本题考查img标签的属性使用。
+选项分析：
+A. ✗ title用于显示提示文本，不是替代文本
+B. ✓ alt（alternative text）用于提供图片的替代文本，在图片无法显示时显示
+C. ✗ border用于设置图片边框
+D. ✗ src用于指定图片源文件地址
 
 24.关于图片的路径，如果是返回上一级文件夹使用（ C ）
 A．./;  	B．文件夹名; 	C．../;		D．..;
+【解析】
+本题考查HTML中的文件路径表示方法。
+选项分析：
+A. ✗ ./表示当前目录
+B. ✗ 直接使用文件夹名表示子目录
+C. ✓ ../表示返回上一级目录
+D. ✗ ..不是正确的路径表示方法
 
 25.下面那个属性可以设置图片的对齐方式（ C ）
-A．hspace;  	B． vspace; 	C．align;		D．width;
+A．hspace;  	B．vspace; 	C．align;		D．width;
+【解析】
+本题考查img标签的对齐属性。
+选项分析：
+A. ✗ hspace用于设置水平间距
+B. ✗ vspace用于设置垂直间距
+C. ✓ align用于设置图片的对齐方式
+D. ✗ width用于设置图片宽度
 
 26.下面属性中可以设置图片的宽度（ A ）图片的高度（ D ）。
 A．width;  	B．alt; 	C．title;		D．height;
+【解析】
+本题考查img标签的尺寸属性。
+选项分析：
+A. ✓ width专门用于设置图片宽度
+B. ✗ alt用于设置替代文本
+C. ✗ title用于设置提示文本
+D. ✓ height专门用于设置图片高度
 
 27.在HTML中，<img>标签的( B )属性用于指定图片的源地址？
-	A. source  B. src  C. image    D. path
+A. source  B. src  C. image    D. path
+【解析】
+本题考查img标签的基本属性。
+选项分析：
+A. ✗ source不是标准属性名
+B. ✓ src（source）是指定图片源文件地址的标准属性
+C. ✗ image不是属性名
+D. ✗ path不是标准属性名
 
 28.如果你想为图片添加一个链接，使得点击图片时跳转到另一个网页，你应该如何编写HTML代码( A )
 A. <a href="otherpage.html"><img src="image.jpg"></a>
 B. <img src="image.jpg" href="otherpage.html">
 C. <a img="image.jpg" href="otherpage.html">
 D. <img src="image.jpg" link="otherpage.html">
+【解析】
+本题考查图片链接的创建方法。
+选项分析：
+A. ✓ 正确的嵌套方式：在a标签内包含img标签
+B. ✗ img标签不能使用href属性
+C. ✗ a标签没有img属性
+D. ✗ img标签没有link属性
 
-29.在HTML中，<img>标签是一个( B  )类型的元素？
-	A. 块级元素   B. 行内元素   C. 替换元素   D. 容器元素
+29.在HTML中，<img>��签是一个( B )类型的元素？
+A. 块级元素   B. 行内元素   C. 替换元素   D. 容器元素
+【解析】
+本题考查HTML元素的显示类型。
+选项分析：
+A. ✗ img不是块级元素，不会独占一行
+B. ✓ img是行内元素，可以和其他内容在同一行显示
+C. ✗ 虽然img也是替换元素，但题目问的是显示类型
+D. ✗ img是空元素，不是容器元素
 
 30.当使用<img>标签时，如果没有指定alt属性，当图片无法加载时，会发生( C )
-		A. 图片占位符会显示
-	B. 浏览器的默认图标会显示
-	C. 什么都不会显示，页面会有一个空白区域
-	D. 浏览器会弹出一个错误提示框
+A. 图片占位符会显示
+B. 浏览器的默认图标会显示
+C. 什么都不会显示，页面会有一个空白区域
+D. 浏览器会弹出一个错误提示框
+【解析】
+本题考查img标签的alt属性作用。
+选项分析：
+A. ✗ 没有alt属性时不会显示占位符
+B. ✗ 浏览器不会显示默认图标
+C. ✓ 没有alt属性时，图片加载失败只会显示空白
+D. ✗ 浏览器不会显示错误提示
 
 31.如果你想在图片下方显示一些描述性文本，但不想使用额外的HTML元素，你应该使用( D )属性？
 A. alt
 B. title
 C. caption
 D. HTML不支持这样的功能
+【解析】
+本题考查HTML中img标签的属性功能。
+选项分析：
+A. ✗ alt属性用于提供替代文本，在图片无法显示时显示
+B. ✗ title属性用于提供悬停提示，不会显示在图片��方
+C. ✗ caption不是img标签的属性，是表格的标题元素
+D. ✓ HTML确实不支持仅用img标签属性来在图片下方显示文本，需要额外的HTML元素（如div或figcaption）
 
 32.在HTML中，( B )标签用于创建超链接
 A. <img>    B. <a>   C. <link>  D. <href>
+【解析】
+本题考查HTML基础标签的用途。
+选项分析：
+A. ✗ img标签用于插入图像，不是创建链接
+B. ✓ a（anchor）标签是创建超链接的专用标签
+C. ✗ link标签用于引入外部资源，主要用在head区域
+D. ✗ href是属性名，不是标签名
 
-33.<a> 标签的（ B ）属性用于指定链接的目标URL？
+33.<a>标签的（ B ）属性用于指定链接的目标URL？
 A. src
 B. href
 C. target
 D. alt
+【解析】
+本题考查超链接标签的属性使用。
+选项分析：
+A. ✗ src是图片等元素的源文件属性，不用于链接
+B. ✓ href（hypertext reference）是指定链接目标地址的标准属性
+C. ✗ target用于指定链接打开方式
+D. ✗ alt是图片的替代文本属性，不用于链接
 
-34. 如果想要在新标签页中打开链接，应该使用 （ A ） 属性值？
+34.如果想要在新标签页中打开链接，应该使用（ A ）属性值？
 A. _blank
 B. _self
 C. _parent
 D. _top
+【解析】
+本题考查链接target属性的值。
+选项分析：
+A. ✓ _blank用于在新窗口或标签页中打开链接
+B. ✗ _self是默认值，在当前窗口打开链接
+C. ✗ _parent在父框架中打开链接
+D. ✗ _top在顶层框架中打开链接
 
-35. <a> 标签默认显示为（ A ）样式？
+35.<a>标签默认显示为（ A ）样式？
 A. 蓝色下划线文本
 B. 红色下划线文本
 C. 紫色加粗文本
 D. 灰色斜体文本
-36.下列 （ A）HTML代码片段创建了一个指向www.example.com并在新标签页中打开的超链接？
-	A. <a href="www.example.com" target="_blank">链接</a>
-	B. <a href="www.example.com" target="_self">链接</a>
-	C. <a href="www.example.com" target="_parent">链接</a>
-	D. <a href="www.example.com" target="_top">链接</a>
+【解析】
+本题考查HTML链接的默认样式。
+选项分析：
+A. ✓ 未访问的链接默认显示为蓝色带下划线
+B. ✗ 红色不是链接的默认颜色
+C. ✗ 链接默认不是加粗的，访问过的链接会变成紫色
+D. ✗ 链接默认不是斜体的，也不是灰色的
 
-37.如果你想创建一个链接到用户电子邮件地址（user@example.com）的邮件客户端启动链接，应该使用（ A ）代码？
-	A. <a href="mailto:user@example.com">发送邮件</a>
-	B. <a src="mailto:user@example.com">发送邮件</a>
-	C. <a email="user@example.com">发送邮件</a>
-	D. <a>mailto:user@example.com</a>
+36.下列（ A ）HTML代码片段创建了一个指向www.example.com并在新标签页中打开的超链接？
+A. <a href="www.example.com" target="_blank">链接</a>
+B. <a href="www.example.com" target="_self">链接</a>
+C. <a href="www.example.com" target="_parent">链接</a>
+D. <a href="www.example.com" target="_top">链接</a>
+【解析】
+本题考查超链接的target属性使用。
+选项分析：
+A. ✓ target="_blank"会在新窗口或标签页中打开链接
+B. ✗ target="_self"会在当前窗口中打开链接
+C. ✗ target="_parent"会在父框架中打开链接
+D. ✗ target="_top"会在顶层框架中打开链接
 
-38.如果你想在网页中创建一个指向页面内某个部分的链接（例如，name为"section1"的位置），应该（ A ）
-		A. <a href="#section1">跳转到section1</a>
-		B. <a id="section1">跳转到section1</a>
-		C. <a src="#section1">跳转到section1</a>
-		D. <a name="section1">跳转到section1</a>
+37.如果你想创建一个链接到用户电子邮件地址的邮件客户端启动链接，应该使用（ A ）代码？
+A. <a href="mailto:user@example.com">发送邮件</a>
+B. <a src="mailto:user@example.com">发送邮件</a>
+C. <a email="user@example.com">发送邮件</a>
+D. <a>mailto:user@example.com</a>
+【解析】
+本题考查mailto链接的创建。
+选项分析：
+A. ✓ 正确使用mailto协议和href属性创建邮件链接
+B. ✗ 使用了错误的属性src
+C. ✗ email不是有效的属性
+D. ✗ 缺少href属性，且格式错误
+
+38.如果你想在网页中创建一个指向页面内某个部分的链接，应该（ A ）
+A. <a href="#section1">跳转到section1</a>
+B. <a id="section1">跳转到section1</a>
+C. <a src="#section1">跳转到section1</a>
+D. <a name="section1">跳转到section1</a>
+【解析】
+本题考查页内锚点链接的创建。
+选项分析：
+A. ✓ 正确使用#号创建页内锚点链接
+B. ✗ id属性用于创建锚点目标，不是链接本身
+C. ✗ src不是链接的正确属性
+D. ✗ name属性用于创建旧式锚点，不是链接本身
 
 39.下列哪个HTML代码片段中的<a>标签使用( C )不正确的
-	A. <a href="http://www.example.com">链接</a>
-	B. <a href="#">链接</a>
-	C. <a>链接</div>
-	D. <a href="#aa">链接</a>
+A. <a href="http://www.example.com">链接</a>
+B. <a href="#">链接</a>
+C. <a>链接</div>
+D. <a href="#aa">链接</a>
+【解析】
+本题考查链接标签的正确使用。
+选项分析：
+A. ✓ 正确的完整URL链接格式
+B. ✓ 正确的空链接格式
+C. ✗ 错误：开闭标签不匹配且缺少href属性
+D. ✓ 正确的��点链接格式
 
 40.( A )属性允许你为图片添加边框？
-	A. border
-	B. frame
-	C. outline
-	D. CSS
+A. border
+B. frame
+C. outline
+D. CSS
+【解析】
+本题考查图片边框的设置方法。
+选项分析：
+A. ✓ border属性是HTML中设置图片边框的传统属性
+B. ✗ frame是表格的属性，不用于图片
+C. ✗ outline是CSS属性，不是HTML属性
+D. ✗ CSS是样式表语言，不是属性
 
 41.下列（ A ）HTML代码片段中的 <img> 标签包含了一个有效的宽度和高度值？
 A. <img src="image.jpg" alt="示例图片" width="500" height="600">
 B. <img src="image.jpg" alt="示例图片" width="50%" height="50px">
 C. <img src="image.jpg" alt="示例图片" width="500" height="600%">
 D. <img src="image.jpg" alt="示例图片" width="500px" height="600">
+【解析】
+本题考查img标签的尺寸属性使用规范。
+选项分析：
+A. ✓ 正确格式：width和height使用纯数字表示像素值
+B. ✗ 混合使用百分比和像素单位，且百分比不是标准写法
+C. ✗ height不能使用百分比值
+D. ✗ width和height属性不需要px单位，直接使用数字
 
-42.<img> 标签的( 	A )属性用于指定图片的宽度？
-	A. width
-	B. broad
-	C. size
-	D. height
+42.<img>标签的( A )属性用于指定图片的宽度？
+A. width
+B. broad
+C. size
+D. height
+【解析】
+本题考查img标签的基本属性。
+选项分析：
+A. ✓ width是标准的宽度属性名
+B. ✗ broad不是有效的HTML属性
+C. ✗ size不是用于指定图片尺寸的属性
+D. ✗ height是高度属性，不是宽度属性
 
 43.如果你想在图片上添加链接，应该( A )
 A. <a href="http://example.com"><img src="image.jpg" alt="示例图片"></a>
 B. <img src="image.jpg" alt="示例图片" href="http://example.com">
 C. <a src="image.jpg" href="http://example.com">示例图片</a>
 D. <img href="http://example.com" src="image.jpg" alt="示例图片">
+【解析】
+本题考查图片链接的正确创建方式。
+选项分析：
+A. ✓ 正确的嵌套：用a标签包围img标签，href属性在a标签上
+B. ✗ img标签不能使用href属性
+C. ✗ a标签不能使用src属性，且结构错误
+D. ✗ img标签不能使用href属性
 
 44.如果图像的width和height属性都未指定，那么图像将( A )
 A. 按其原始大小显示
 B. 显示为100x100像素
 C. 不显示
 D. 显示为浏览器窗口大小
+【解析】
+本题考查img标签的默认行为。
+选项分析：
+A. ✓ 不指定尺寸时，图片会按照其原始像素尺寸显示
+B. ✗ 没有这个默认值
+C. ✗ 图片会正常显示
+D. ✗ 不会自动适应浏览器窗口大小
 
-45.<img> 标签可以自闭合吗（ A ）
+45.<img>标签可以自闭合吗（ A ）
 A. 可以
 B. 不可以
 C. 取决于浏览器
 D. 取决于HTML版本
+【解析】
+本题考查HTML标签的语法规则。
+选项分析：
+A. ✓ img是空元素，可以使用自闭合写法（如<img />或<img>）
+B. ✗ img标签必须自闭合，不能有结束标签
+C. ✗ 这是HTML标准规定的，不依赖浏览器
+D. ✗ 所有HTML版本都支持img标签的自闭合
 
 46.下列（ A ）属性用于定义图像的对齐方式？
 A. align
 B. position
 C. float
 D. <img>标签不支持直接定义对齐方式
+【解析】
+本题考查图片对齐属性。
+选项分析：
+A. ✓ align是HTML中用于设置图片对齐方式的属性（虽然在HTML5中已弃用）
+B. ✗ position是CSS定位属性，不是HTML属性
+C. ✗ float是CSS浮动属性，不是HTML属性
+D. ✗ img标签支持align属性（尽管现代开发推荐使用CSS）
 
 47.在HTML中，<a>标签是( B )元素？
 A. 块级元素
 B. 行内元素
 C. 两者都不是
 D. 两者都是
+【解析】
+本题考查HTML元素的显示特性。
+选项分析：
+A. ✗ a标签不是块级元素
+B. ✓ a标签是行内元素，可以和其他内容在同一行显示
+C. ✗ a标签是标准的行内元素
+D. ✗ 元素不能同时是块级和行内元素
 
-48.在HTML中，<img> 标签用于( B )目的？
+48.在HTML中，<img>标签用于( B )目的？
 A. 插入链接
 B. 插入图像
 C. 创建表格
 D. 创建列表
+【解析】
+本题考查HTML基础标签的用途。
+选项分析：
+A. ✗ 插入链接使用a标签
+B. ✓ img（image）标签专门用于在网页中插入图像
+C. ✗ 创建表格使用table相关标签
+D. ✗ 创建列表使用ul、ol、li等标签
 
 49.如果你想让链接在新窗口中打开，应该使用<a>标签的（ A ）属性？
 A. target="_blank"
 B. target="_self"
 C. open="new"
 D. href="_blank"
+【解析】
+本题考查链接打开方式的设置。
+选项分析：
+A. ✓ target="_blank"是在新窗口/标签页打开链接的标准方式
+B. ✗ _self是默认值，在当前窗口打开
+C. ✗ open="new"不是有效的HTML属性
+D. ✗ href属性用于指定URL，不控制打开方式
 
 50.如果你想在链接上显示一个图像，应该( A )结合使用<a>和<img>标签
 A. <a href="..."><img src="..."></a>
 B. <img href="..."><a src="..."></a>
 C. <a src="..."><img href="..."></img>
 D. <img><a>...</a>
+【解析】
+本题考查图片链接的正确创建方式。
+选项分析：
+A. ✓ 正确的嵌套顺序：a标签包含img标签，属性使用正确
+B. ✗ 标签嵌套顺序错误，且属性使用错误
+C. ✗ 属性使用错误，且img不需要结束标签
+D. ✗ 结构不完整，缺少必要的属性
 
-51.<img> 标签的 alt 属性在( C )特别有用？
+51.<img>标签的 alt 属性在( C )特别有用？
 A. 当图像加载缓慢时
 B. 当图像与文本重复时
 C. 当图像无法显示时
 D. 当图像过大时
+【解析】
+本题考查img标签的alt属性作用。
+选项分析：
+A. ✗ 没有alt属性时不会显示占位符
+B. ✗ 浏览器不会显示默认图标
+C. ✓ 没有alt属性时，图片加载失败只会显示空白
+D. ✗ 浏览器不会显示错误提示
 
 52.当点击一个 <a> 标签时，通常会发生（ A ）
 A. 跳转到另一个页面
 B. 显示一个图像
 C. 播放一个视频
 D. 创建一个新的窗口
+【解析】
+本题考查超链接的默认行为。
+选项分析：
+A. ✓ 点击超链接会跳转到目标页面
+B. ✗ 点击超链接不会显示图像
+C. ✗ 点击超链接不会播放视频
+D. ✗ 点击超链接不会创建新窗口
 
 53.下列（ C ）属性可以用于 <a> 标签来指定链接在新窗口或新标签页中打开？
 A. open	B. new		C. target		D. window
+【解析】
+本题考查超链接的target属性。
+选项分析：
+A. ✗ open不是有效的HTML属性
+B. ✗ new不是有效的HTML属性
+C. ✓ target用于指定链接打开方式
+D. ✗ window不是有效的HTML属性
 
 54.下列( B )属性不是 <a> 标签的属性？
 A. href	B. src		C. target	D. title
+【解析】
+本题考查超链接标签的属性。
+选项分析：
+A. ✓ href是超链接的核心属性，用于指定链接目标
+B. ✗ src是图片等元素的源文件属性，不用于链接
+C. ✓ target用于指定链接打开方式
+D. ✓ title用于设置悬停提示文本
 
-55.<img> 标签的 title 属性与 alt 属性的主要区别是( A )
+55.<img>标签的 title 属性与 alt 属性的主要区别是( A )
 A. title 属性用于设置图像的提示文本，而 alt 属性用于设置图像的替代文本
 B. title 属性用于设置图像的替代文本，而 alt 属性用于设置图像的提示文本
 C. 两者没有区别
 D. title 属性是必需的，而 alt 属性是可选的
+【解析】
+本题考查img标签的title属性与alt属性的区别。
+选项分析：
+A. ✓ title属性用于设置图像的提示文本，而alt属性用于设置图像的替代文本
+B. ✗ title属性用于设置图像的替代文本，而alt属性用于设置图像的提示文本
+C. ✗ 两者没有区别
+D. ✗ title属性是必需的，而alt属性是可选的
 
 56.如何设置 <img> 标签的宽度为300像素( C)
 A. <img width="300">
 B. <img style="width:300px">
 C. <img src="image.jpg" width="300">
 D. <img src="image.jpg" style="width:300">
+【解析】
+本题考查img标签的尺寸属性使用规范。
+选项分析：
+A. ✗ width="300"是错误的写法，应该使用src属性
+B. ✗ style="width:300px"不是有效的HTML属性
+C. ✓ src="image.jpg" width="300"是正确的写法
+D. ✗ style="width:300"不是有效的HTML属性
 
-57.当用户点击一个带有target="_blank"属性的<a>链接时，通常会( B )
+57.当用户点击一个带有target="_blank"属性的<a>链时，通常会( B )
 A. 链接在当前窗口打开
 B. 链接在新窗口或新标签页打开
 C. 链接在父窗口打开
 D. 链接在顶部窗口打开
+【解析】
+本题考查超链接的target属性。
+选项分析：
+A. ✗ 当前窗口打开链接
+B. ✓ target="_blank"会在新窗口或标签页中打开链接
+C. ✗ _parent在父框架中打开链接
+D. ✗ _top在顶层框架中打开链接
 
 58.如果<a>标签的href属性设置为#，点击链接会发生( C )
 A. 页面会跳转到顶部
 B. 页面会刷新
 C. 链接不会执行任何操作
 D. 页面会跳转到底部
+【解析】
+本题考查超链接的href属性。
+选项分析：
+A. ✗ 页面会跳转到顶部
+B. ✗ 页面会刷新
+C. ✓ href属性设置为#时，链接不会执行任何操作
+D. ✗ 页面会跳转到底部
 
 59.<img>标签的src属性用于( B )
 A. 设置图像的边框
 B. 指定图像的路径
 C. 设置图像的替代文本
 D. 定义图像的宽度
+【解析】
+本题考查img标签的基本属性。
+选项分析：
+A. ✗ border是设置图片边框的属性
+B. ✓ src（source）是指定图片源文件地址的标准属性
+C. ✗ alt是设置替代文本的属性
+D. ✗ width是设置图片宽度的属性
 
 60.假设你想在网页上放置一张图片，并且该图片有一个点击后可以在新窗口打开的链接。以下哪个HTML代码片段 (  B )实现这个效果？
 A..<a href="https://example.com"><img src="image.jpg" alt="My Image" /></a>
 B.<a href="https://example.com" target=”_blank”><img src="image.jpg" alt="My Image" /></a>
 C.<img href="https://example.com" src="image.jpg" alt="My Image" />
 D.<a src="image.jpg" alt="My Image" href="https://example.com"></a>
+【解析】
+本题考查图片链接的正确创建方式。
+选项分析：
+A. ✗ 缺少target属性
+B. ✓ 正确的嵌套：在a标签内包含img标签，target属性在a标签上
+C. ✗ 缺少target属性
+D. ✗ 缺少target属性
 
 61.下面( D )可以设置有序列表的排列顺序为数字。
 A.a	B.A	C.I	D.不设置type属性
+【解析】
+本题考查有序列表的排列顺序。
+选项分析：
+A. ✗ a不是有效的有序列表类型
+B. ✗ A不是有效的有序列表类型
+C. ✗ I不是有效的有序列表类型
+D. ✓ 不设置type属性时，默认使用数字作为列表项的标记
 
 62.下面( C )不是无序列表type的属性值。
 A.disc	B.square	C.solid	D.circle
+【解析】
+本题考查无序列表的type属性值。
+选项分析：
+A. ✓ disc是有效的无序列表类型
+B. ✓ square是有效的无序列表类型
+C. ✗ solid不是有效的无序列表类型
+D. ✓ circle是有效的无序列表类型
 
 63.下面关于列表的嵌套说法不正确的是( C )。
 A.定义列表中可以嵌套有序列表
 B.有序列表中可以嵌套无序列表
-C.有序列表和无序列表中不能嵌套定义列表
+C.有序列表和无序列表中不能嵌套定列表
 D.定义列表中可以嵌套无序列表
+【解析】
+本题考查列表的嵌套。
+选项分析：
+A. ✓ 定义列表中可以嵌套有序列表
+B. ✓ 有序列表中可以嵌套无序列表
+C. ✗ 有序列表和无序列表中不能嵌套定列表
+D. ✓ 定义列表中可以嵌套无序列表
 
 64.下列关于列表的说法正确的是(A	)。
 A.使用<ol>和<li>可以制作有序列表
 B.使用<ol>和<li>可以制作无序列表
 C.定义列表中的<dd>标签用来定义标题
 D.使用<ul>、<dt>和<dd>可以制作定义列表
+【解析】
+本题考查列表的正确使用。
+选项分析：
+A. ✓ 使用<ol>和<li>可以制作有序列表
+B. ✓ 使用<ol>和<li>可以制作无序列表
+C. ✗ <dd>标签用于定义描述，不是标题
+D. ✓ 使用<ul>、<dt>和<dd>可以制作定义列表
 
 65.下面表格基本标签的嵌套顺序描述正确的是( C  )。
 A. <table><td><tr></tr></td></table>
 B.<table><tr></tr><td></td></table>
 C.<table><tr><td></td></tr></table>
 D. <table><tr><td></tr></td></table>
+【解析】
+本题考查表格的嵌套顺序。
+选项分析：
+A. ✗ 表格的嵌套顺序不正确
+B. ✗ 表格的嵌套顺序不正确
+C. ✓ 正确的嵌套顺序：<tr>标签包含<td>标签
+D. ✗ 表格的嵌套顺序不正确
 
 66.为单元格设置属性及属性值( A  )，可以使该单元格里的内容垂直居中对齐。
 A. valign="middle"
 B. valign="center"
 C. align="center"
 D. valign="absmiddle"
+【解析】
+本题考查单元格的垂直对齐方式。
+选项分析：
+A. ✓ valign="middle"是正确的垂直对齐方式
+B. ✗ valign="center"是错误的垂直对齐方式
+C. ✗ align="center"不是有效的HTML属性
+D. ✗ valign="absmiddle"不是有效的HTML属性
 
 67.在HTML中，单元格的跨列属性是通过(  C  )设置的。
 A. cellpadding
 B. cellspacing
 C. colspan
 D. rowspan
+【解析】
+本题考查单元格的跨列属性。
+选项分析：
+A. ✗ cellpadding是单元格的内边距属性
+B. ✗ cellspacing是单元格的外边距属性
+C. ✓ colspan是单元格的跨列属性
+D. ✗ rowspan是单元格的跨行属性
 
 68.表格中单元格之间的间距可以通过(  B  )设置。
 A. <table>的cellpadding 属性
 B.<table>的 cellspacing属性
 C.<td>的cellpadding 属性
 D.<td>的cellspacing属性
+【解析】
+本题考查表格的单元格间距。
+选项分析：
+A. ✗ cellpadding是单元格的内边距属性
+B. ✓ cellspacing是单元格的外边距属性
+C. ✗ cellpadding是单元格的内边距属性
+D. ✗ cellspacing是单元格的外边距属性
 
 69.阅读下面的HTML代码，关于该代码在页面中实现的效果描述正确的是<table width="500"><tr><td height="1" bgcolor="#cccccc">&nbsp;</td></tr></table>( B )
 A.在网页中显示一条高度为1的灰色细线
 B.表格的宽度为500
 C.和<hr/>标签显示的效果一样
 D.显示空白
+【解析】
+本题考查表格的宽度。
+选项分析：
+A. ✗ 这不是一条灰色细线
+B. ✓ 表格的宽度为500
+C. ✗ 这不是一条灰色细线
+D. ✗ 这不是一条灰色细线
 
-70.下面HTML中表示一个单选按钮的是(  B  )。
+70.下面HTML中表示一单选按钮的是(  B  )。
 A. <input type="text"/>
 B.<input type="radio" >
 C. <input type="checkbox" />
 D.<input type="button"/>
+【解析】
+本题考查单选按钮的创建。
+选项分析：
+A. ✗ 文本框用于输入文本
+B. ✓ radio按钮用于选择单个选项
+C. ✗ checkbox用于选择多个选项
+D. ✗ button用于提交表单
 
 71.下面HTML中表示复选框处于选中状态的是( BD  )。
 A. <input type="checkbox" selected="selected"/ >
 B.<input type="checkbox" checked="checked"/ >
 C.<input type="checkbox" selected="true"/ >
 D.<input type="checkbox" checked="true" />
+【解析】
+本题考查复选框的选中状态。
+选项分析：
+A. ✗ selected="selected"不是有效的HTML属性
+B. ✓ checked="checked"用于设置复选框为选中状态
+C. ✗ selected="true"不是有效的HTML属性
+D. ✓ checked="true"用于设置复选框为选中状态
 
 72.下面表单元素中，不是通过<input />标签表示的是( BC   )。
 A.密码框
 B.下拉列表
 C.多行文本框
 D.文件域
+【解析】
+本题考查表单元素的表示方式。
+选项分析：
+A. ✓ 密码框通过<input type="password" />表示
+B. ✓ 下拉列表通过<select>和<option>标签表示
+C. ✓ 多行文本框通过<textarea>标签表示
+D. ✓ 文件域通过<input type="file" />表示
 
 73.下面HTML中，表示一个图片按钮的是(  A  )。
 A.<input type="image" src="btn.gif" />
 B.<img type="submit" src="btn.gif" />
 C.<input type="submit" value="提交" />
 D.<input type="img" src="btn.gif" />
+【解析】
+本题考查图片按钮的创建。
+选项分析：
+A. ✓ input type="image" src="btn.gif"是创建图片按钮的标准方式
+B. ✗ img type="submit" src="btn.gif"不是有效的HTML代码
+C. ✗ input type="submit" value="提交"不是有效的HTML代码
+D. ✗ input type="img" src="btn.gif"不是有效的HTML代码
 
 74.若要设置表单中某个表单元素为禁用状态，需要为其添加的属性及属性值为(  A  )。
 A. disabled="disabled"
 B. readonly="readonly"
 C.checked="checked"
 D. selected="selected"
+【解析】
+本题考查表单元素的禁用状态。
+选项分析：
+A. ✓ disabled="disabled"用于设置表单元素为禁用状态
+B. ✗ readonly="readonly"用于设置文本框为只读状态
+C. ✗ checked="checked"用于设置复选框为选中状态
+D. ✗ selected="selected"用于设置下拉列表的选中状态
