@@ -1,6 +1,5 @@
 import os
-import random
-from datetime import datetime
+import glob
 import json
 import re
 
@@ -9,87 +8,20 @@ class QuizFormatError(Exception):
     pass
 
 class QuizBuilder:
-    def __init__(self, template_path, questions_path):
-        self.template_path = template_path
-        self.questions_path = questions_path
-        
-    def validate_question_format(self, line_num, line, question_data=None):
-        """验证题目格式，有错误时抛出带有明确提示的异常"""
-        # 验证题目行
-        if line[0].isdigit():
-            if '(' not in line or ')' not in line:
-                raise QuizFormatError(f"第{line_num}行: 题目缺少正确答案标记，格式应为'题目内容( A )'")
-            
-            answer_start = line.find('(')
-            answer_end = line.find(')')
-            answers = line[answer_start+1:answer_end].strip()
-            
-            # 验证答案格式
-            for ans in answers.split():
-                if len(ans) != 1 or ans not in 'ABCD':
-                    raise QuizFormatError(f"第{line_num}行: 正确答案'{ans}'无效，必须是A、B��C、D之")
-        
-        # 验选项行
-        elif line[0] in 'ABCD':
-            if len(line) < 2 or line[1] != '.':
-                raise QuizFormatError(f"第{line_num}行: 选项格式错误，应为'A.选项内容'格式")
-            
-            if question_data and len(question_data['options']) >= 4:
-                raise QuizFormatError(f"第{line_num}行: 该题选项数量超过4个")
-        
-        else:
-            raise QuizFormatError(f"第{line_num}行: 无效的行格式，应以数字开头(题目)或A-D开头(选项)")
-
-    def parse_options(self, line):
-        """从包含制表符或多个空格的行中解析多个选项"""
-        options = []
-        
-        # 调试信息
-        print(f"正在解析选项行: {repr(line)}")
-        
-        # 移除所有前导空格和制表符
-        line = line.strip()
-        
-        # 如果是单行包含所有选项的情况
-        if 'A' in line and 'B' in line and 'C' in line and 'D' in line:
-            # 先按制表符分割
-            parts = line.split('\t')
-            # 如果分割后的部分少于4个，尝试按多个空格分割
-            if len(parts) < 4:
-                import re
-                parts = re.split(r'\s{2,}', line)
-            
-            # 处理每个部分
-            for part in parts:
-                part = part.strip()
-                if part and part[0] in 'ABCD':
-                    # 支持中英文点号
-                    if len(part) > 1 and (part[1] == '.' or part[1] == '．'):
-                        option_text = part[2:].strip()
-                        if option_text:
-                            options.append(option_text)
-                    # 支持没有点号的格式
-                    elif len(part) > 1:
-                        option_text = part[1:].strip()
-                        if option_text:
-                            options.append(option_text)
-        
-        # 调试信息
-        print(f"解析出的所有选项: {options}")
-        
-        return options
-
-    def parse_questions(self):
+    def __init__(self, template_dir):
+        self.template_dir = template_dir
+        self.quiz_template_path = os.path.join(template_dir, 'quiz_template.html')
+        self.index_template_path = os.path.join(template_dir, 'index_template.html')
+    
+    def parse_questions(self, questions_path):
         questions = []
         current_question = None
         line_num = 0
         question_num = 0
         processed_questions = set()  # 用于统计题目编号
         
-        with open(self.questions_path, 'r', encoding='utf-8') as f:
+        with open(questions_path, 'r', encoding='utf-8') as f:
             lines = f.readlines()
-            total_lines = len(lines)
-            print(f"总行数: {total_lines}")
             
             def extract_answers(line):
                 """从一行文本中提取所有括号内的答案，并返回处理后的文本"""
@@ -116,7 +48,6 @@ class QuizBuilder:
                             closing_bracket = ')' if bracket_type == '(' else '）'
                             processed_text = before + bracket_type + "  " + closing_bracket + after
                 
-                # 如果找到了答案，返后的答案和处理后的文本
                 if answers:
                     return sorted(set(answers)), processed_text
                 
@@ -124,7 +55,7 @@ class QuizBuilder:
 
             def is_question_line(line):
                 """判断是否是题目行"""
-                # 检查是否以数开头（持多个点号）
+                # 检查是否以数字开头（支持多个点号）
                 if not any(c.isdigit() for c in line.split('.')[0].split('．')[0]):
                     return False
                 # 检查是否包含括号和答案
@@ -132,7 +63,7 @@ class QuizBuilder:
 
             def is_option_line(line):
                 """判断是否是选项行"""
-                # 必须以A-D开头，后面跟着点号（支持中英文点号
+                # 必须以A-D开头，后面跟着点号（支持中英文点号）
                 if not line or line[0] not in 'ABCD':
                     return False
                 return len(line) > 1 and (line[1] == '.' or line[1] == '．')
@@ -143,19 +74,6 @@ class QuizBuilder:
                 
                 if not line:
                     continue
-                
-                # 记录题号并打印更详细的信息
-                if line[0].isdigit():
-                    try:
-                        current_num = int(line.split('.')[0])
-                        processed_questions.add(current_num)
-                        print(f"\n处理题目 {current_num}: {line}")
-                        # 打印接下来4行，看选项
-                        for i in range(4):
-                            if line_num + i < len(lines):
-                                print(f"选项{i+1}: {lines[line_num + i].strip()}")
-                    except ValueError:
-                        pass
                 
                 try:
                     # 处理题目行
@@ -171,13 +89,10 @@ class QuizBuilder:
                         answers, processed_text = extract_answers(line)
                         if not answers:
                             raise QuizFormatError(
-                                f"第{question_num}题（第{line_num}行）: 无法从题目中提取出有的答案，"
+                                f"第{question_num}题（第{line_num}行）: 无法从题目中提取出有效的答案，"
                                 f"答案必须是A、B、C、D中的一个或多个")
                         
-                        correct_answers = [ord(ans) - ord('A') for ans in answers]
-                        is_multiple_choice = len(correct_answers) > 1
-                        
-                        # 移除题号
+                        # 处理题目文本
                         question_text = processed_text
                         question_text = re.sub(r'^\d+\.', '', question_text).strip()  # 只移除题号
                         
@@ -201,12 +116,12 @@ class QuizBuilder:
                             elif is_question_line(next_line):
                                 break
                             option_search_line_num += 1
-
+                        
                         current_question = {
                             'question': question_text,
                             'options': [],
-                            'correctAnswer': correct_answers,
-                            'isMultipleChoice': is_multiple_choice,
+                            'correctAnswer': [ord(ans) - ord('A') for ans in answers],
+                            'isMultipleChoice': len(answers) > 1,
                             'explanation': explanation.strip() if explanation else "暂无解析"
                         }
                         
@@ -219,20 +134,7 @@ class QuizBuilder:
                                 option_search_line_num += 1
                                 continue
                             
-                            # 检查是否是包含多选项的行
-                            if '\t' in next_line or '  ' in next_line:  # 同时检查制表符和多个空格
-                                options = self.parse_options(next_line)
-                                if options:
-                                    # 调试信息
-                                    print(f"发现选行: {next_line}")
-                                    print(f"解析出的选项: {options}")
-                                    
-                                    for option in options:
-                                        if option_count < 4:  # 确保不会添加超过4个项
-                                            current_question['options'].append(option)
-                                            option_count += 1
-                                option_search_line_num += 1
-                            elif is_option_line(next_line):
+                            if is_option_line(next_line):
                                 option = next_line[2:].strip()
                                 if option_count < 4:
                                     current_question['options'].append(option)
@@ -246,54 +148,42 @@ class QuizBuilder:
                         
                         if option_count < 4:
                             raise QuizFormatError(
-                                f"第{question_num}题第{line_num}行）: 选项数量不足4个，实际只{option_count}个\n"
+                                f"第{question_num}题（第{line_num}行）: 选项数量不足4个，实际只有{option_count}个\n"
                                 f"题目内容: {line}\n"
                                 f"已找到的选项: {current_question['options']}"
                             )
                         
-                        line_num = option_search_line_num  # 更新号到最后处理的位置
+                        line_num = option_search_line_num  # 更新行号到最后处理的位置
                     
                 except QuizFormatError as e:
                     print(f"\n格式错误: {str(e)}")
                     print(f"出错的行内容: {line}")
-                    print("\n正确的格式例:")
-                    print("1.题内容( A )。")
+                    print("\n正确的格式示例:")
+                    print("1.题目内容( A )。")
                     print("2.题目内容（A）。  # 中文括号也支持")
-                    print("3..题目内容( A )。  # 支持多个点号")
+                    print("3.题目内容( A )。  # 支持多个点号")
                     print("4.多选题内容( A B D )  # 多选题示例")
-                    print("A.选1")
+                    print("A.选项1")
                     print("B.选项2")
                     print("C.选项3")
-                    print("D.项4\n")
+                    print("D.选项4\n")
                     raise
         
         # 验证最后一题的完整性
         if current_question:
             if len(current_question['options']) != 4:
                 raise QuizFormatError(
-                    f"第{question_num}题（第{line_num}行）: 选不足4个，实际只有{len(current_question['options'])}")
+                    f"第{question_num}题（第{line_num}行）: 选项数量不足4个，实际只有{len(current_question['options'])}个")
             questions.append(current_question)
         
         if not questions:
             raise QuizFormatError("题目文件为空或格式错误")
         
-        # 打印计息
-        print("\n题目处理统计:")
-        print(f"理的题目数量: {len(processed_questions)}")
-        print(f"题目编号列表: {sorted(list(processed_questions))}")
-        
-        # 检查缺失的题号
-        if processed_questions:
-            max_num = max(processed_questions)
-            missing = set(range(1, max_num + 1)) - processed_questions
-            if missing:
-                print(f"\n失的题号: {sorted(list(missing))}")
-        
         return questions
     
     def build_questions_js(self, questions):
         def safe_json_dumps(obj):
-            """自定义 JSON 列化，保留 HTML 标签"""
+            """自定义 JSON 序列化，保留 HTML 标签"""
             if isinstance(obj, str):
                 # 进行 JSON 序列化
                 json_text = json.dumps(obj, ensure_ascii=False)
@@ -324,19 +214,16 @@ class QuizBuilder:
         # 生成最终的 JavaScript 代码
         js_code = "const questions = [\n    " + ",\n    ".join(js_questions) + "\n];"
         
-        # 印生成代码以便调试
-        print("\n生成的 JavaScript 代码示例（第一题）:")
-        print(js_questions[0] if js_questions else "没有题目")
-        
         return js_code
-    
-    def build(self):
+
+    def build_quiz(self, questions_path, output_path):
+        """构建单个题目页面"""
         # 读取模板
-        with open(self.template_path, 'r', encoding='utf-8') as f:
+        with open(self.quiz_template_path, 'r', encoding='utf-8') as f:
             template = f.read()
             
         # 解析题目
-        questions = self.parse_questions()
+        questions = self.parse_questions(questions_path)
         
         # 生成questions.js内容
         questions_js = self.build_questions_js(questions)
@@ -344,39 +231,60 @@ class QuizBuilder:
         # 将questions_js嵌入到模板中
         html = template.replace('// QUESTIONS_PLACEHOLDER', questions_js)
         
-        # 确保dist目录存在
-        os.makedirs('dist', exist_ok=True)
-        
-        # 生成index.html文件
-        output_path = 'dist/index.html'
-        
-        # 写入生成HTML文
+        # 写入生成的HTML文件
+        os.makedirs(os.path.dirname(output_path), exist_ok=True)
         with open(output_path, 'w', encoding='utf-8') as f:
             f.write(html)
             
-        print(f'Quiz built successfully: {output_path}')
-    
-    def generate_explanation(self, question, options, correct_answers):
-        """生成题目解析"""
-        # 构建解析文本
-        explanation = "【解析】\n"
-        explanation += "本题考查：...\n\n"
-        explanation += "选项分析：\n"
+        return os.path.basename(questions_path), len(questions)
+
+    def build_index(self, quiz_list):
+        """构建导航页面"""
+        # 读取模板
+        with open(self.index_template_path, 'r', encoding='utf-8') as f:
+            template = f.read()
         
-        for i, option in enumerate(options):
-            is_correct = i in correct_answers
-            explanation += f"{chr(65 + i)}. {option}\n"
-            explanation += f"   {'✓ ' if is_correct else '✗ '}"
-            # 这里可以为每个选项添加具体分析
-            explanation += "...\n"
+        # 生成题目列表HTML
+        quiz_items = []
+        for name, count in quiz_list:
+            quiz_name = os.path.splitext(name)[0]
+            quiz_items.append(
+                f'<li class="quiz-item">'
+                f'<a href="{quiz_name}.html" class="quiz-link">{quiz_name} ({count}题)</a>'
+                f'</li>'
+            )
         
-        explanation += "\n答案解释：...\n"
+        # 将题目列表嵌入到模板中
+        html = template.replace('<!-- QUIZ_LIST_PLACEHOLDER -->', '\n'.join(quiz_items))
         
-        return explanation
+        # 写入生成的index.html
+        with open('dist/index.html', 'w', encoding='utf-8') as f:
+            f.write(html)
+
+    def build(self):
+        """构建整个项目"""
+        # 确保dist目录存在
+        os.makedirs('dist', exist_ok=True)
+        
+        # 获取所有题目文件
+        quiz_list = []
+        questions_dir = 'src/questions'
+        for questions_path in glob.glob(os.path.join(questions_dir, '*.txt')):
+            quiz_name = os.path.basename(questions_path)
+            output_name = os.path.splitext(quiz_name)[0] + '.html'
+            output_path = os.path.join('dist', output_name)
+            
+            try:
+                name, count = self.build_quiz(questions_path, output_path)
+                quiz_list.append((name, count))
+                print(f'Built quiz: {output_path} ({count} questions)')
+            except Exception as e:
+                print(f'Error building quiz {questions_path}: {str(e)}')
+        
+        # 构建导航页
+        self.build_index(quiz_list)
+        print('Built index.html')
 
 if __name__ == '__main__':
-    builder = QuizBuilder(
-        template_path='src/templates/quiz_template.html',
-        questions_path='src/questions.txt'
-    )
+    builder = QuizBuilder('src/templates')
     builder.build() 
