@@ -4,103 +4,131 @@ A.Ctrl+N
 B.Ctrl+S
 C.Ctrl+空格
 D.Ctrl+Shift+空格
+
 2.在HTML中，浏览器左上角显示的标题是通过( A )标签设置的。
 A.<title>
 B.<h1>
 C. <hr />
 D.<head>
+
 3.下面关于段落与换行的区别说法错误的是( C )。
 A.段落开始标签和结束标签之间可以有文字，换行没有
 B.默认情况下，段落与段落之间有一定的间距，换行没有
 C.段落与换行都可以起到换行的作用，没有任何区别
 D.段落有单独的结束标签，而换行是自身闭合的标签
-3.在HTML中，使一段文字显示为斜体需要使用( B )标签。
+
+4.在HTML中，使一段文字显示为斜体需要使用( B )标签。
 A. <strong>
 B.<em>
 C. <hr />
 D.<p>
+
 5.空格对应的HTML代码是( D )。
 A. &amp;
 B.&copy;
 C.&lt;
 D.&nbsp;
+
 6.创建图像使用的标签是( C)。
 A. <hr />
 B.<br >
-C. <img />0
+C. <img />
 D.<a>
+
 7.下面关于网页中图像的说法错误的是( C)。
 A.若要使图像旁边的文字相对于图像垂直居中，需要设置图像的align属性为absmiddle
 B.设置图像的border属性为0，可以使图像不显示边框
 C.图像的src属性用来设置图像的超链接地址
 D.图像的替代文本只有在图像无法显示时才能看到
+
 8.下面关于超链接的说法错误的是(B D )。
 A.链接的target属性为_blank，表示该链接在新窗口打开
 B.链接的src属性用来设置被链接页面的地址
 C.链接目标页面可以是网络上的网页地址
 D.为图像文件添加超链接，默认情况下图像会显示边框
+
 9.下面关于创建电子邮件链接的HTML语法正确的是(C )。
 A.<email>denny@domain.com</email>
 B. <a href="denny@domain.com">Denny</a>
 C.<a herf="mailto:denny@domain.com">Denny</a>
 D.<mail to="denny@domain.com">Denny</a>
+
 10.下面关于网页中命名锚记的说法错误的是(B)。
 A.命名锚记是通过<a>标签的name属性设置的
 B.使用<a name="#top"></a>创建了一个名为top的命名锚记
 C.命名锚链接和锚记可以在不同的页面
 D. <a href="#info">查看详细</a>表示一个指向本页名为info命名锚记的链接
+
 11. HTML的结构正确的是（  B   ）。
 A．<html><body></body><p></p></html>
 B．<html><head></head><body></body></html>
 C．<html><head></head><h></h></html>
 D．<html><title><head></head></title></html>
+
 12.在HTML中，下面（ C    ）标签可以在页面上显示一个水平线。
 		A．<h2></h2>		B．<p></p>		C．<hr/>		D．<br/>
 
 13.下面（   B ）标签可以实现文本加粗显示。
 	A．&nbsp;		B．<strong>		C．<em>		D．<p>
+
 14.在HTML中，下面（   A  ）可以在页面上显示空格。
 A.&nbsp;		B．&copy;		C．&lt;		D.&gt;
-15.在HTML中，下面（   D  ）不是HTML的组成结构。
+
+15. 在HTML中，下面（   D  ）不是HTML的组成结构。
 	A．声明		B．头部		C．主体		D.身体
-16.在HTML中，下面（    A ）级别最高(作用效果最大，字体最大)。
+
+16. 在HTML中，下面（    A ）级别最高(作用效果最大，字体最大)。
 A．h1   	B．h2 		C．h3		D.h4
+
 17.下面（  D   ）不是DW编译软件自带的模式。
 A．代码模式   	B．拆分模式 		C．设计模式		D.编译模式
-18.在HTML中，下面（  B   ）代表的是段落。
+
+18. 在HTML中，下面（  B   ）代表的是段落。
 A．h1   	B．p		C．title		D.br
-19.下面（   C  ）标签可以实现文本斜体显示。
+
+19. 下面（   C  ）标签可以实现文本斜体显示。
 	A．br   	B．<strong>		C．<em>		D．<p>
+
 20.下面（  A   ）选项是大于号的实体引用。
 A．&gt;  	B．&lt; 	C．&amp;		D．&copy;
+
 21.下面那个选项不是超链接的分类（ D ）
 A．功能性链接;  	B．书签标记链接; 	C．空连接;		D．联合链接;
+
 22.下面那个属性是属于超链接的（  B）
 A．src;  	B．href; 	C．img;		D．a;
+
 23.在网页中引入的图片无法正常显示时使用（ B ）说明
 A．title;  	B．alt; 	C．border;		D．src;
+
 24.关于图片的路径，如果是返回上一级文件夹使用（ C ）
 A．./;  	B．文件夹名; 	C．../;		D．..;
+
 25.下面那个属性可以设置图片的对齐方式（ C ）
 A．hspace;  	B． vspace; 	C．align;		D．width;
+
 26.下面属性中可以设置图片的宽度（ A ）图片的高度（ D ）。
 A．width;  	B．alt; 	C．title;		D．height;
+
 27.在HTML中，<img>标签的( B )属性用于指定图片的源地址？
 	A. source  B. src  C. image    D. path
+
 28.如果你想为图片添加一个链接，使得点击图片时跳转到另一个网页，你应该如何编写HTML代码( A )
 A. <a href="otherpage.html"><img src="image.jpg"></a>
 B. <img src="image.jpg" href="otherpage.html">
 C. <a img="image.jpg" href="otherpage.html">
 D. <img src="image.jpg" link="otherpage.html">
 
-29在HTML中，<img>标签是一个( B  )类型的元素？
+29.在HTML中，<img>标签是一个( B  )类型的元素？
 	A. 块级元素   B. 行内元素   C. 替换元素   D. 容器元素
-30当使用<img>标签时，如果没有指定alt属性，当图片无法加载时，会发生( C )
+
+30.当使用<img>标签时，如果没有指定alt属性，当图片无法加载时，会发生( C )
 		A. 图片占位符会显示
 	B. 浏览器的默认图标会显示
 	C. 什么都不会显示，页面会有一个空白区域
 	D. 浏览器会弹出一个错误提示框
-31如果你想在图片下方显示一些描述性文本，但不想使用额外的HTML元素，你应该使用( B )属性？
+
+31.如果你想在图片下方显示一些描述性文本，但不想使用额外的HTML元素，你应该使用( D )属性？
 A. alt
 B. title
 C. caption
@@ -108,6 +136,7 @@ D. HTML不支持这样的功能
 
 32.在HTML中，( B )标签用于创建超链接
 A. <img>    B. <a>   C. <link>  D. <href>
+
 33.<a> 标签的（ B ）属性用于指定链接的目标URL？
 A. src
 B. href
@@ -130,180 +159,217 @@ D. 灰色斜体文本
 	B. <a href="www.example.com" target="_self">链接</a>
 	C. <a href="www.example.com" target="_parent">链接</a>
 	D. <a href="www.example.com" target="_top">链接</a>
+
 37.如果你想创建一个链接到用户电子邮件地址（user@example.com）的邮件客户端启动链接，应该使用（ A ）代码？
 	A. <a href="mailto:user@example.com">发送邮件</a>
 	B. <a src="mailto:user@example.com">发送邮件</a>
 	C. <a email="user@example.com">发送邮件</a>
 	D. <a>mailto:user@example.com</a>
+
 38.如果你想在网页中创建一个指向页面内某个部分的链接（例如，name为"section1"的位置），应该（ A ）
 		A. <a href="#section1">跳转到section1</a>
 		B. <a id="section1">跳转到section1</a>
 		C. <a src="#section1">跳转到section1</a>
 		D. <a name="section1">跳转到section1</a>
+
 39.下列哪个HTML代码片段中的<a>标签使用( C )不正确的
 	A. <a href="http://www.example.com">链接</a>
 	B. <a href="#">链接</a>
 	C. <a>链接</div>
 	D. <a href="#aa">链接</a>
+
 40.( A )属性允许你为图片添加边框？
 	A. border
 	B. frame
 	C. outline
 	D. CSS
+
 41.下列（ A ）HTML代码片段中的 <img> 标签包含了一个有效的宽度和高度值？
 A. <img src="image.jpg" alt="示例图片" width="500" height="600">
 B. <img src="image.jpg" alt="示例图片" width="50%" height="50px">
 C. <img src="image.jpg" alt="示例图片" width="500" height="600%">
 D. <img src="image.jpg" alt="示例图片" width="500px" height="600">
+
 42.<img> 标签的( 	A )属性用于指定图片的宽度？
 	A. width
 	B. broad
 	C. size
 	D. height
+
 43.如果你想在图片上添加链接，应该( A )
 A. <a href="http://example.com"><img src="image.jpg" alt="示例图片"></a>
 B. <img src="image.jpg" alt="示例图片" href="http://example.com">
 C. <a src="image.jpg" href="http://example.com">示例图片</a>
 D. <img href="http://example.com" src="image.jpg" alt="示例图片">
+
 44.如果图像的width和height属性都未指定，那么图像将( A )
 A. 按其原始大小显示
 B. 显示为100x100像素
 C. 不显示
 D. 显示为浏览器窗口大小
+
 45.<img> 标签可以自闭合吗（ A ）
 A. 可以
 B. 不可以
 C. 取决于浏览器
 D. 取决于HTML版本
+
 46.下列（ A ）属性用于定义图像的对齐方式？
 A. align
 B. position
 C. float
 D. <img>标签不支持直接定义对齐方式
+
 47.在HTML中，<a>标签是( B )元素？
 A. 块级元素
 B. 行内元素
 C. 两者都不是
 D. 两者都是
+
 48.在HTML中，<img> 标签用于( B )目的？
 A. 插入链接
 B. 插入图像
 C. 创建表格
 D. 创建列表
+
 49.如果你想让链接在新窗口中打开，应该使用<a>标签的（ A ）属性？
 A. target="_blank"
 B. target="_self"
 C. open="new"
 D. href="_blank"
+
 50.如果你想在链接上显示一个图像，应该( A )结合使用<a>和<img>标签
 A. <a href="..."><img src="..."></a>
 B. <img href="..."><a src="..."></a>
 C. <a src="..."><img href="..."></img>
 D. <img><a>...</a>
+
 51.<img> 标签的 alt 属性在( C )特别有用？
 A. 当图像加载缓慢时
 B. 当图像与文本重复时
 C. 当图像无法显示时
 D. 当图像过大时
+
 52.当点击一个 <a> 标签时，通常会发生（ A ）
 A. 跳转到另一个页面
 B. 显示一个图像
 C. 播放一个视频
 D. 创建一个新的窗口
+
 53.下列（ C ）属性可以用于 <a> 标签来指定链接在新窗口或新标签页中打开？
 A. open	B. new		C. target		D. window
+
 54.下列( B )属性不是 <a> 标签的属性？
 A. href	B. src		C. target	D. title
+
 55.<img> 标签的 title 属性与 alt 属性的主要区别是( A )
 A. title 属性用于设置图像的提示文本，而 alt 属性用于设置图像的替代文本
 B. title 属性用于设置图像的替代文本，而 alt 属性用于设置图像的提示文本
 C. 两者没有区别
 D. title 属性是必需的，而 alt 属性是可选的
+
 56.如何设置 <img> 标签的宽度为300像素( C)
 A. <img width="300">
 B. <img style="width:300px">
 C. <img src="image.jpg" width="300">
 D. <img src="image.jpg" style="width:300">
+
 57.当用户点击一个带有target="_blank"属性的<a>链接时，通常会( B )
 A. 链接在当前窗口打开
 B. 链接在新窗口或新标签页打开
 C. 链接在父窗口打开
 D. 链接在顶部窗口打开
+
 58.如果<a>标签的href属性设置为#，点击链接会发生( C )
 A. 页面会跳转到顶部
 B. 页面会刷新
 C. 链接不会执行任何操作
 D. 页面会跳转到底部
+
 59.<img>标签的src属性用于( B )
 A. 设置图像的边框
 B. 指定图像的路径
 C. 设置图像的替代文本
 D. 定义图像的宽度
+
 60.假设你想在网页上放置一张图片，并且该图片有一个点击后可以在新窗口打开的链接。以下哪个HTML代码片段 (  B )实现这个效果？
 A..<a href="https://example.com"><img src="image.jpg" alt="My Image" /></a>
 B.<a href="https://example.com" target=”_blank”><img src="image.jpg" alt="My Image" /></a>
 C.<img href="https://example.com" src="image.jpg" alt="My Image" />
 D.<a src="image.jpg" alt="My Image" href="https://example.com"></a>
+
 61.下面( D )可以设置有序列表的排列顺序为数字。
 A.a	B.A	C.I	D.不设置type属性
+
 62.下面( C )不是无序列表type的属性值。
 A.disc	B.square	C.solid	D.circle
+
 63.下面关于列表的嵌套说法不正确的是( C )。
 A.定义列表中可以嵌套有序列表
 B.有序列表中可以嵌套无序列表
 C.有序列表和无序列表中不能嵌套定义列表
 D.定义列表中可以嵌套无序列表
+
 64.下列关于列表的说法正确的是(A	)。
 A.使用<ol>和<li>可以制作有序列表
 B.使用<ol>和<li>可以制作无序列表
 C.定义列表中的<dd>标签用来定义标题
 D.使用<ul>、<dt>和<dd>可以制作定义列表
+
 65.下面表格基本标签的嵌套顺序描述正确的是( C  )。
 A. <table><td><tr></tr></td></table>
 B.<table><tr></tr><td></td></table>
 C.<table><tr><td></td></tr></table>
 D. <table><tr><td></tr></td></table>
+
 66.为单元格设置属性及属性值( A  )，可以使该单元格里的内容垂直居中对齐。
 A. valign="middle"
 B. valign="center"
 C. align="center"
 D. valign="absmiddle"
+
 67.在HTML中，单元格的跨列属性是通过(  C  )设置的。
 A. cellpadding
 B. cellspacing
 C. colspan
 D. rowspan
+
 68.表格中单元格之间的间距可以通过(  B  )设置。
 A. <table>的cellpadding 属性
 B.<table>的 cellspacing属性
 C.<td>的cellpadding 属性
 D.<td>的cellspacing属性
-69.阅读下面的HTML代码，关于该代码在页面中实现的效果描述正确的是( B )
-<table width="500"><tr><td height="1" bgcolor="#cccccc">&nbsp;</td></tr></table>
+
+69.阅读下面的HTML代码，关于该代码在页面中实现的效果描述正确的是<table width="500"><tr><td height="1" bgcolor="#cccccc">&nbsp;</td></tr></table>( B )
 A.在网页中显示一条高度为1的灰色细线
 B.表格的宽度为500
 C.和<hr/>标签显示的效果一样
 D.显示空白
+
 70.下面HTML中表示一个单选按钮的是(  B  )。
 A. <input type="text"/>
 B.<input type="radio" >
 C. <input type="checkbox" />
 D.<input type="button"/>
+
 71.下面HTML中表示复选框处于选中状态的是( BD  )。
 A. <input type="checkbox" selected="selected"/ >
 B.<input type="checkbox" checked="checked"/ >
 C.<input type="checkbox" selected="true"/ >
 D.<input type="checkbox" checked="true" />
+
 72.下面表单元素中，不是通过<input />标签表示的是( BC   )。
 A.密码框
 B.下拉列表
 C.多行文本框
 D.文件域
+
 73.下面HTML中，表示一个图片按钮的是(  A  )。
 A.<input type="image" src="btn.gif" />
 B.<img type="submit" src="btn.gif" />
 C.<input type="submit" value="提交" />
 D.<input type="img" src="btn.gif" />
+
 74.若要设置表单中某个表单元素为禁用状态，需要为其添加的属性及属性值为(  A  )。
 A. disabled="disabled"
 B. readonly="readonly"

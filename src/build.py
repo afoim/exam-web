@@ -2,6 +2,7 @@ import os
 import random
 from datetime import datetime
 import json
+import re
 
 class QuizFormatError(Exception):
     """题目格式错误的自定义异常"""
@@ -26,7 +27,7 @@ class QuizBuilder:
             # 验证答案格式
             for ans in answers.split():
                 if len(ans) != 1 or ans not in 'ABCD':
-                    raise QuizFormatError(f"第{line_num}行: 正确答案'{ans}'无效，必须是A、B、C、D之")
+                    raise QuizFormatError(f"第{line_num}行: 正确答案'{ans}'无效，必须是A、B��C、D之")
         
         # 验选项行
         elif line[0] in 'ABCD':
@@ -46,47 +47,32 @@ class QuizBuilder:
         # 调试信息
         print(f"正在解析选项行: {repr(line)}")
         
-        # 如果是单行包含所有选项的情况（用空格分隔）
-        if 'A' in line and 'B' in line and 'C' in line and 'D' in line:
-            import re
-            # 使用正则表达式匹配所有选项
-            # 先将行按选项标记分割
-            parts = re.split(r'([A-D][\. ])', line)
-            current_option = None
-            current_text = []
-            
-            for part in parts:
-                part = part.strip()
-                if not part:
-                    continue
-                    
-                if re.match(r'^[A-D][\. ]$', part):  # 如果是选项标记
-                    if current_option is not None and current_text:
-                        options.append(''.join(current_text).strip())
-                        current_text = []
-                    current_option = part[0]
-                else:
-                    if current_option is not None:
-                        current_text.append(part)
-            
-            # 添加最后一个选项
-            if current_option is not None and current_text:
-                options.append(''.join(current_text).strip())
-            
-            if len(options) == 4:  # 如果找到了4个选项，直接返回
-                return options
+        # 移除所有前导空格和制表符
+        line = line.strip()
         
-        # 如果上面的方法没有找到4个选项，尝试按制表符分割
-        if not options:
+        # 如果是单行包含所有选项的情况
+        if 'A' in line and 'B' in line and 'C' in line and 'D' in line:
+            # 先按制表符分割
             parts = line.split('\t')
+            # 如果分割后的部分少于4个，尝试按多个空格分割
+            if len(parts) < 4:
+                import re
+                parts = re.split(r'\s{2,}', line)
+            
+            # 处理每个部分
             for part in parts:
                 part = part.strip()
-                if part and part[0] in 'ABCD' and len(part) > 1:
-                    # 找到第一个点号后的位置
-                    option_start = 2 if part[1] in '.．' else 1
-                    option_text = part[option_start:].strip()
-                    if option_text:
-                        options.append(option_text)
+                if part and part[0] in 'ABCD':
+                    # 支持中英文点号
+                    if len(part) > 1 and (part[1] == '.' or part[1] == '．'):
+                        option_text = part[2:].strip()
+                        if option_text:
+                            options.append(option_text)
+                    # 支持没有点号的格式
+                    elif len(part) > 1:
+                        option_text = part[1:].strip()
+                        if option_text:
+                            options.append(option_text)
         
         # 调试信息
         print(f"解析出的所有选项: {options}")
@@ -98,40 +84,47 @@ class QuizBuilder:
         current_question = None
         line_num = 0
         question_num = 0
+        processed_questions = set()  # 用于统计题目编号
         
         with open(self.questions_path, 'r', encoding='utf-8') as f:
             lines = f.readlines()
+            total_lines = len(lines)
+            print(f"总行数: {total_lines}")
             
-            def extract_answer(text, line):
-                """从文本中提取答案，如果找不到则尝试在整行中查找"""
-                # 首先尝试从括号内容中提取
+            def extract_answers(line):
+                """从一行文本中提取所有括号内的答案，并返回处理后的文本"""
                 answers = []
-                for char in text:
-                    if char in 'ABCD':
-                        answers.append(char)
+                brackets = []
+                processed_text = line
                 
-                # 如果括号内没有找到答案，尝试查找其他括号
-                if not answers:
-                    # 查找所有括号对
-                    brackets = []
-                    for i, char in enumerate(line):
-                        if char in '(（':
-                            brackets.append((i, char))
-                        elif char in ')）' and brackets:
-                            start_idx, start_char = brackets.pop()
-                            # 检查这对括号内的内容
-                            bracket_content = line[start_idx+1:i]
-                            for c in bracket_content:
-                                if c in 'ABCD':
-                                    answers.append(c)
-                            if answers:  # 如果找到答案就停止查找
-                                break
+                # 遍历所有括号，找出所有包含答案的括号
+                for i, char in enumerate(line):
+                    if char in '(（':
+                        brackets.append((i, char))
+                    elif char in ')）' and brackets:
+                        start_idx, start_char = brackets.pop()
+                        # 检查这对括号内的内容
+                        bracket_content = line[start_idx+1:i].strip()
+                        cleaned_content = bracket_content.replace(' ', '')
+                        # 如果括号内容全是答案字母
+                        if cleaned_content and all(c in 'ABCD' for c in cleaned_content):
+                            answers.extend(list(cleaned_content))
+                            # 直接替换答案为空格
+                            before = processed_text[:start_idx]
+                            after = processed_text[i+1:]
+                            bracket_type = line[start_idx]
+                            closing_bracket = ')' if bracket_type == '(' else '）'
+                            processed_text = before + bracket_type + "  " + closing_bracket + after
                 
-                return answers if answers else None
+                # 如果找到了答案，返去重后的答案和处理后的文本
+                if answers:
+                    return sorted(set(answers)), processed_text
+                
+                return None, line
 
             def is_question_line(line):
                 """判断是否是题目行"""
-                # 检查是否以数字开头（支持多个点号）
+                # 检查是否以数开头（持多个点号）
                 if not any(c.isdigit() for c in line.split('.')[0].split('．')[0]):
                     return False
                 # 检查是否包含括号和答案
@@ -139,7 +132,7 @@ class QuizBuilder:
 
             def is_option_line(line):
                 """判断是否是选项行"""
-                # 必须以A-D开头，后面跟着点号（支持中英文点号）
+                # 必须以A-D开头，后面跟着点号（支持中英文点号���
                 if not line or line[0] not in 'ABCD':
                     return False
                 return len(line) > 1 and (line[1] == '.' or line[1] == '．')
@@ -151,6 +144,19 @@ class QuizBuilder:
                 if not line:
                     continue
                 
+                # 记录题号并打印更详细的信息
+                if line[0].isdigit():
+                    try:
+                        current_num = int(line.split('.')[0])
+                        processed_questions.add(current_num)
+                        print(f"\n处理题目 {current_num}: {line}")
+                        # 打印接下来4行，看选项
+                        for i in range(4):
+                            if line_num + i < len(lines):
+                                print(f"选项{i+1}: {lines[line_num + i].strip()}")
+                    except ValueError:
+                        pass
+                
                 try:
                     # 处理题目行
                     if is_question_line(line):
@@ -161,37 +167,22 @@ class QuizBuilder:
                                     f"第{question_num-1}题（第{line_num}行之前）: 选项数量不足4个，实际只有{len(current_question['options'])}个")
                             questions.append(current_question)
                         
-                        # 提取题目和答案（支持中英文括号）
-                        answer_start = -1
-                        answer_end = -1
-                        
-                        # 检查英文括号
-                        if '(' in line and ')' in line:
-                            answer_start = line.find('(')
-                            answer_end = line.find(')')
-                        # 检查中文括号
-                        elif '（' in line and '）' in line:
-                            answer_start = line.find('（')
-                            answer_end = line.find('）')
-                        
-                        if answer_start == -1 or answer_end == -1:
-                            raise QuizFormatError(f"第{question_num}题（第{line_num}行）: 题目缺少正确答案标记，格式为'题目内( A )'或'题目内容（A）'")
-                        
-                        # 提取并验证答案
-                        answers_text = line[answer_start+1:answer_end]
-                        answers = extract_answer(answers_text, line)
-                        
+                        # 提取所有括号中的答案
+                        answers, processed_text = extract_answers(line)
                         if not answers:
                             raise QuizFormatError(
-                                f"第{question_num}题（第{line_num}行）: 无法从'{answers_text}'中提取出有效的答案(A/B/C/D)")
+                                f"第{question_num}题（第{line_num}行）: 无法从题目中提取出有效的答案，"
+                                f"答案必须是A、B、C、D中的一个或多个")
                         
                         correct_answers = [ord(ans) - ord('A') for ans in answers]
                         is_multiple_choice = len(correct_answers) > 1
                         
-                        # 不对HTML标签进行转义
-                        question_text = line[:answer_start].strip()
+                        # 移除题号
+                        question_text = processed_text
+                        question_text = re.sub(r'^\d+\.', '', question_text).strip()  # 只移除题号
+                        
                         current_question = {
-                            'question': question_text,
+                            'question': question_text,  # 直接使用原始文本
                             'options': [],
                             'correctAnswer': correct_answers,
                             'isMultipleChoice': is_multiple_choice
@@ -206,16 +197,16 @@ class QuizBuilder:
                                 option_search_line_num += 1
                                 continue
                             
-                            # 检查是否是包含多个选项的行
+                            # 检查是否是包含多选项的行
                             if '\t' in next_line or '  ' in next_line:  # 同时检查制表符和多个空格
                                 options = self.parse_options(next_line)
                                 if options:
                                     # 调试信息
-                                    print(f"发现选项行: {next_line}")
+                                    print(f"发现选行: {next_line}")
                                     print(f"解析出的选项: {options}")
                                     
                                     for option in options:
-                                        if option_count < 4:  # 确保不会添加超过4个选项
+                                        if option_count < 4:  # 确保不会添加超过4个项
                                             current_question['options'].append(option)
                                             option_count += 1
                                 option_search_line_num += 1
@@ -233,51 +224,88 @@ class QuizBuilder:
                         
                         if option_count < 4:
                             raise QuizFormatError(
-                                f"第{question_num}题���第{line_num}行）: 选项数量不足4个，实际只有{option_count}个\n"
+                                f"第{question_num}题第{line_num}行）: 选项数量不足4个，实际只{option_count}个\n"
                                 f"题目内容: {line}\n"
                                 f"已找到的选项: {current_question['options']}"
                             )
                         
-                        line_num = option_search_line_num  # 更新行号到最后处理的位置
+                        line_num = option_search_line_num  # 更新号到最后处理的位置
                     
                 except QuizFormatError as e:
                     print(f"\n格式错误: {str(e)}")
                     print(f"出错的行内容: {line}")
-                    print("\n正确的格式示例:")
-                    print("1.题目内容( A )。")
-                    print("2.题目容（A）。  # 中文括号也支持")
+                    print("\n正确的格式例:")
+                    print("1.题内容( A )。")
+                    print("2.题目内容（A）。  # 中文括号也支持")
                     print("3..题目内容( A )。  # 支持多个点号")
                     print("4.多选题内容( A B D )  # 多选题示例")
-                    print("A.选项1")
+                    print("A.选1")
                     print("B.选项2")
                     print("C.选项3")
-                    print("D.选项4\n")
+                    print("D.项4\n")
                     raise
         
         # 验证最后一题的完整性
         if current_question:
             if len(current_question['options']) != 4:
                 raise QuizFormatError(
-                    f"第{question_num}题（第{line_num}行）: 选项数��不足4个，实际只有{len(current_question['options'])}个")
+                    f"第{question_num}题（第{line_num}行）: 选不足4个，实际只有{len(current_question['options'])}")
             questions.append(current_question)
         
         if not questions:
             raise QuizFormatError("题目文件为空或格式错误")
-            
+        
+        # 打印计息
+        print("\n题目处理统计:")
+        print(f"理的题目数量: {len(processed_questions)}")
+        print(f"题目编号列表: {sorted(list(processed_questions))}")
+        
+        # 检查缺失的题号
+        if processed_questions:
+            max_num = max(processed_questions)
+            missing = set(range(1, max_num + 1)) - processed_questions
+            if missing:
+                print(f"\n失的题号: {sorted(list(missing))}")
+        
         return questions
     
     def build_questions_js(self, questions):
+        def safe_json_dumps(obj):
+            """自定义 JSON 列化，保留 HTML 标签"""
+            if isinstance(obj, str):
+                # 进行 JSON 序列化
+                json_text = json.dumps(obj, ensure_ascii=False)
+                # 直接替换转义的尖括号
+                return json_text.replace('\\u003c', '<').replace('\\u003e', '>')
+            elif isinstance(obj, list):
+                # 对列表中的每个元素进行处理
+                items = [safe_json_dumps(item) if isinstance(item, str) else json.dumps(item, ensure_ascii=False) for item in obj]
+                return f'[{",".join(items)}]'
+            return json.dumps(obj, ensure_ascii=False)
+
         js_questions = []
-        for q in questions:
-            # 使用 JSON.stringify，但确保 HTML 标签不被转义
+        for i, q in enumerate(questions):
+            # 直接使用处理好的题目文本，不添加序号
+            question_text = q['question'].strip()
+            # 在题目末尾添加题型标记
+            question_text += " [" + ("多选题" if q['isMultipleChoice'] else "单选题") + "]"
+            
+            # 使用自定义的 JSON 序列化，确保生成有效的 JavaScript 对象
             js_questions.append(f"""{{
-                question: {json.dumps(q['question'], ensure_ascii=False)},
-                options: {json.dumps(q['options'], ensure_ascii=False)},
-                correctAnswer: {q['correctAnswer']},
+                question: {safe_json_dumps(question_text)},
+                options: {safe_json_dumps(q['options'])},
+                correctAnswer: {json.dumps(q['correctAnswer'], ensure_ascii=False)},
                 isMultipleChoice: {str(q['isMultipleChoice']).lower()}
             }}""")
-            
-        return "const questions = [\n    " + ",\n    ".join(js_questions) + "\n];"
+        
+        # 生成最终的 JavaScript 代码
+        js_code = "const questions = [\n    " + ",\n    ".join(js_questions) + "\n];"
+        
+        # 印生成代码以便调试
+        print("\n生成的 JavaScript 代码示例（第一题）:")
+        print(js_questions[0] if js_questions else "没有题目")
+        
+        return js_code
     
     def build(self):
         # 读取模板
@@ -299,7 +327,7 @@ class QuizBuilder:
         # 生成index.html文件
         output_path = 'dist/index.html'
         
-        # 写入生成的HTML文件
+        # 写入生成HTML文
         with open(output_path, 'w', encoding='utf-8') as f:
             f.write(html)
             
